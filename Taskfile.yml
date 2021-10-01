@@ -4,9 +4,83 @@ version: '3'
 
 vars:
   GREETING: Hello, World!
+  const_venv: tasker-test-env
+  conf_python_version: python=3.9
+  const_python_deps: >-
+    fire
+    loguru
+    yaml
+    pydantic
+    fastapi
+    PyInstaller
+  const_pytest_deps: >-
+    yapf
+    pytest
 
 tasks:
   default:
     cmds:
-      - echo "{{.GREETING}}"
+      - task -l || true
     silent: true
+
+  venv-resolve:
+    desc: resolve work/test venv={{.const_venv}}
+    cmds:
+      - |-
+        conda list -n {{.const_venv}} 2>/dev/null \
+        || conda create -n {{.const_venv}} {{.var_python_version}} -y
+        conda install -y -n {{.const_venv}} \
+          {{.const_python_deps}} {{.const_pytest_deps}}
+
+  dump-conda-deps-lock:
+    desc: dump conda packages state to
+    cmds:
+      -
+      - conda list -e > version/locks/deps.conda.dev-env.lock.list.txt
+      - pip freeze > version/locks/deps.pip.dev-env.lock.list.txt
+
+  venv-active-show:
+    desc: show command for venv activation
+    silent: true
+    cmds:
+      - echo conda activate {{.const_venv}}
+
+  with-venv:
+    desc: run command within the venv
+    cmds:
+      - |-
+        bash --login -c '
+        conda activate {{.const_venv}}
+        {{.cmd}}
+        '
+
+  verify-request:
+    desc: check syntax, staling, etc
+    cmds:
+      - echo ok
+
+  pre-build-test:
+    desc: run tests without install (with PYTHONPATH)
+    cmds:
+      - echo tests:run-all-tests no_install=true
+
+  ci-flow:
+    desc: _
+    cmds:
+      - task verify-request
+      - task pre-build-test
+      - task ci-build
+      - task ci-test
+
+  ci-build:
+    desc: _
+    cmds:
+      - echo task build-pypi-pack
+      - echo task build-pyinst-pack
+
+  ci-test:
+    desc: _
+    cmds:
+      - echo task test
+
+
