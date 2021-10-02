@@ -3,6 +3,8 @@ from typing import List, Dict, Union, Optional
 from pydantic import Field, BaseModel
 
 
+
+
 class TaskGoStepCmd(BaseModel):
     cmd: str
 
@@ -91,6 +93,7 @@ class TaskInvokeFlags(BaseModel):
 
     @classmethod
     def from_cmdarr(cls, cmdarr: List[str]):
+        from tasker.struct_utils import extradite_tokens_segments
         extract_request = {
             "output": {"nplaces": 2, "aliases": ["--output", "-o"]},
             "dry": {"nplaces": 1, "aliases": ["--dry"]},
@@ -99,7 +102,7 @@ class TaskInvokeFlags(BaseModel):
             "summary": {"nplaces": 1, "aliases": ["--summary"]},
             "parallel": {"nplaces": 1, "aliases": ["--parallel", "-p"]}
         }
-        extract_result = {}
+        extract_result = extradite_tokens_segments(cmdarr, extract_request)
         res = cls(**extract_result)
         return res
 

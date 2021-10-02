@@ -3,27 +3,50 @@ from contextlib import suppress
 from typing import List, Dict, Union, Iterable, Tuple, Any
 
 import pydantic
+from pydantic import BaseModel
 
 from tasker.tasker_schemas import MatchAliasRule
 
 
-def parse_to_line(text: str):
-    list_items = shlex.split(text.strip())
+class classer:
+    def __init__(self, target):
+        self.target = target
+
+    def filter(self, request):
+        if isinstance(request, list):
+            pass
+        if isinstance(request, dict):
+            pass
 
 
-def extradite_tokens_segments(
+def from_str__to__pytype(inp_val: str) -> Any:
+    import json
+    if inp_val in 'True true ok on'.split():
+        out_val = True
+    elif inp_val in 'False false fail off'.split():
+        out_val = False
+    elif inp_val in 'None null'.split():
+        out_val = False
+    else:
+        out_val = json.loads(inp_val)
+    return out_val
+
+
+class ExtractResult(BaseModel):
+    name: str
+    val_str: str
+    row: List[str]
+
+    @property
+    def value(self):
+        return from_str__to__pytype(self.val_str)
+
+
+def _extradite_tokens_segments(
         line_arr: List[str],
         token_to_alias_map: Dict[str, Union[dict, MatchAliasRule]],
-) -> Iterable[Tuple[str, List[str]]]:
-    """ Extracts aliases from lists
-    Args:
-        line_arr: list of strings
-        token_to_alias_map: rules for extraction by match to alias
-        places: number of places of interest on the right side
+) -> Iterable[ExtractResult]:
 
-    Returns: generator of names
-
-    """
     for name, _rule in token_to_alias_map.items():
         if isinstance(_rule, dict):
             rule = MatchAliasRule(**_rule)
@@ -36,7 +59,31 @@ def extradite_tokens_segments(
                 idx = line_arr.index(striped)
                 row = list(line_arr[idx: idx + rule.nplaces])
                 line_arr.remove(striped)
-                yield name, row
+                if rule.nplaces == 1:
+                    value = 'True'
+                elif rule.nplaces == 2:
+                    value = row[1]
+                else:
+                    value = row
+                yield ExtractResult(name=name, val_str=value, row=row)
+
+
+def extradite_tokens_segments(
+        line_arr: List[str],
+        token_to_alias_map: Dict[str, Union[dict, MatchAliasRule]],
+) -> Dict[str, ExtractResult]:
+    """ Extracts aliases from lists
+    Args:
+        line_arr: list of strings
+        token_to_alias_map: rules for extraction by match to alias
+        places: number of places of interest on the right side
+
+    Returns: generator of names
+
+    """
+    items_exp = _extradite_tokens_segments(line_arr, token_to_alias_map)
+    res = {it.name: it for it in items_exp}
+    return res
 
 
 def safe_get(key, obj, default=None) -> Any:
