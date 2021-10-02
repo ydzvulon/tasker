@@ -8,6 +8,7 @@ from typing import Union, Sequence, Tuple
 from tasker_schemas import TaskGoTaskfileUnions, TaskGoTask
 from struct_utils import safe_get
 import task_keys
+from world_map import WorldPartReflection
 
 
 def to_dict_if_exists(**kwargs):
@@ -32,6 +33,7 @@ class TaskfileHandler:
 
         self._data = data
         self.taskfile_obj = TaskGoTaskfileUnions(**data)
+        self.world_shadow = WorldPartReflection()
 
     def list_tasks(self) -> Sequence[Tuple[str, str]]:
         """ Iterates over tasks

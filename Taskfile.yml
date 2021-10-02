@@ -79,4 +79,10 @@ tasks:
     cmds:
       - echo task test
 
-
+  pyfull:
+    desc: _
+    cmds:
+    - |-
+      python - << EOF | tee /tmp/tt.txt
+      print("hello")
+      EOF

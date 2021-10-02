@@ -45,6 +45,13 @@ class TaskGoTaskfileUnions(BaseModel):
     tasks: Optional[TaskGoTaskDict] = None
 
 
+class TaskComposition:
+    vars: dict
+    tasks: dict
+
+
+
+
 class TaskGoTaskfileRepr(BaseModel):
     version: str
     includes: Optional[TaskGoIncludesDict] = None
