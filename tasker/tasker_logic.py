@@ -4,8 +4,6 @@ from tasker_schemas import UnionCommandType, TaskGoStepCmd, TaskGoStepTask
 # class BashGoCmd:
 
 
-class Task
-
 def recognize_steps(steps):
     pass
 

@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import List, Dict, Union, Optional
 from pydantic import Field, BaseModel
 
@@ -80,7 +81,7 @@ def get_from_list(x, ys: list, remove=False):
 
 
 class TaskInvokeFlags(BaseModel):
-    prefixed: Optional[str]
+    output: Optional[str]
 
     silent: Optional[bool]
     dry: Optional[bool]
@@ -90,20 +91,17 @@ class TaskInvokeFlags(BaseModel):
 
     @classmethod
     def from_cmdarr(cls, cmdarr: List[str]):
-        cls.fields.items()
-        info = cls()
-        extract_request=dict(
-            prefixed: Optional[str]
-            silent: Optional[bool]
-            dry: Optional[bool]
-            force: Optional[bool]
-            summary: Optional[bool]
-            parallel: Optional[bool]
-        )
-        get_from_list(['--silent', '-s'], remove=True)
-        set_if_present()
-        silent=MatchAliasRule(nplaces=1, aliases=["-s", "--silent"]),
-
+        extract_request = {
+            "output": {"nplaces": 2, "aliases": ["--output", "-o"]},
+            "dry": {"nplaces": 1, "aliases": ["--dry"]},
+            "silent": {"nplaces": 1, "aliases": ["--silent", "-s"]},
+            "force": {"nplaces": 1, "aliases": ["--force", "-f"]},
+            "summary": {"nplaces": 1, "aliases": ["--summary"]},
+            "parallel": {"nplaces": 1, "aliases": ["--parallel", "-p"]}
+        }
+        extract_result = {}
+        res = cls(**extract_result)
+        return res
 
 
 class TaskInvokeCmd(BaseModel):
@@ -125,6 +123,7 @@ class TaskInvokeCmd(BaseModel):
             target = next_in_list('-t', cmd_arr, remove_pair=True)
 
 
-
-
-
+@dataclass
+class MatchAliasRule:
+    nplaces: int
+    aliases: List[str]

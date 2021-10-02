@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import Union, Sequence, Tuple
 
 from tasker_schemas import TaskGoTaskfileUnions, TaskGoTask
-from tasker_dal import safe_get
-import taskeys
+from tasker.struct_utils import safe_get
+import task_keys
 
 
 def to_dict_if_exists(**kwargs):
@@ -50,7 +50,7 @@ class TaskHandler:
 
         """
         task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
-        for step in safe_get(taskeys.cmds, task_obj):
+        for step in safe_get(task_keys.cmds, task_obj):
             recognize_step(step)
 
 
