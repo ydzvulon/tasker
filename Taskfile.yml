@@ -26,11 +26,6 @@ tasks:
           {{.deps_conda_run_list_txt}} \
           {{.deps_conda_test_list_txt}}
 
-  dump-conda-deps-lock:
-    desc: dump conda packages state to
-    cmds:
-      - conda list -e > version/locks/deps.conda.dev-env.lock.list.txt
-      - pip freeze > version/locks/deps.pip.dev-env.lock.list.txt
 
   venv-active-show:
     desc: show command for venv activation

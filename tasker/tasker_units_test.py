@@ -31,7 +31,7 @@ def test_suite__taskerctl():
     yield
 
     print("@@act=declare block=step name=test-grow-taskworld goal='test list_tasks method'")
-    changes = hand.ingrain()
+    changes = hand.resolve_static()
     assert not False  # replace with your logic
     intermediate_a = 'hello'
     yield

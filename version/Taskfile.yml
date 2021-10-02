@@ -51,4 +51,10 @@ tasks:
       - |-
         task -s {{.task_seq}} {{._suff}}
 
+  dump-conda-deps-lock:
+    desc: dump conda packages state to
+    cmds:
+      - conda list -e > locks/deps.conda.dev-env.lock.list.txt
+      - pip freeze > locks/deps.pip.dev-env.lock.list.txt
+      - conda env export > locks/deps.conda-env-file.lock.list.yaml
 

@@ -31,16 +31,15 @@ class WorldPartReflection(BaseModel):
     files:  Dict[str, ShadowFile] = []
     stages: Dict[str, ShadowStage] = []
     steps: Dict[str, ShadowStep] = []
-    addrbook: Dict[str, Any]
+    addrbook: Dict[str, Any] = []
 
 
 class WorldReflectionHolder:
     def __init__(self):
-        self.world = WorldReflection()
+        self.world = WorldPartReflection()
 
     def absorb_stage(self, name, stage: TaskGoTaskUnion):
         # TODO: - [] check name for collisions
-        self.world
         self.world.stages[name] = ShadowStage(stage)
 
     def load__task_struct_raw(self, other: TaskGoTaskfileUnions):

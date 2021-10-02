@@ -47,6 +47,13 @@ class TaskfileHandler:
         task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
         return task_obj
 
+    def resolve_static(self):
+        # TODO: resolve vars
+        self.resolve_tasks()
+
+    def resolve_tasks(self):
+        self.taskfile_obj.tasks.items()
+
 
 def upath_to_taskfile(upath: str) -> str:
     if upath == '.':
