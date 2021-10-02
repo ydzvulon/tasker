@@ -11,6 +11,7 @@ class TaskerCli:
                 print(exc)
 
     def list_tasks(self):
+        pass
 
 if __name__ == '__main__':
     fire.Fire()
