@@ -1,6 +1,6 @@
 fire
 loguru
-yaml
+pyyaml
 pydantic
 fastapi
 PyInstaller
