@@ -1,0 +1,6 @@
+fire
+loguru
+yaml
+pydantic
+fastapi
+PyInstaller

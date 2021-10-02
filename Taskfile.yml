@@ -6,16 +6,6 @@ vars:
   GREETING: Hello, World!
   const_venv: tasker-test-env
   conf_python_version: python=3.9
-  const_python_deps: >-
-    fire
-    loguru
-    yaml
-    pydantic
-    fastapi
-    PyInstaller
-  const_pytest_deps: >-
-    yapf
-    pytest
 
 tasks:
   default:
@@ -24,18 +14,21 @@ tasks:
     silent: true
 
   venv-resolve:
-    desc: resolve work/test venv={{.const_venv}}
+    desc: 'resolve work/test venv={{.const_venv}}'
+    vars:
+      deps_conda_run_list_txt: "$(cat version/deps/deps.conda.run.list.txt)"
+      deps_conda_test_list_txt: "$(cat version/deps/deps.conda.test.list.txt)"
     cmds:
       - |-
         conda list -n {{.const_venv}} 2>/dev/null \
-        || conda create -n {{.const_venv}} {{.var_python_version}} -y
+        || conda create -n {{.const_venv}} {{.conf_python_version}} -y
         conda install -y -n {{.const_venv}} \
-          {{.const_python_deps}} {{.const_pytest_deps}}
+          {{.deps_conda_run_list_txt}} \
+          {{.deps_conda_test_list_txt}}
 
   dump-conda-deps-lock:
     desc: dump conda packages state to
     cmds:
-      -
       - conda list -e > version/locks/deps.conda.dev-env.lock.list.txt
       - pip freeze > version/locks/deps.pip.dev-env.lock.list.txt
 
