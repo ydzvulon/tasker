@@ -71,6 +71,9 @@ tasks:
       - echo task build-pypi-pack
       - echo task build-pyinst-pack
 
+
+  test-them: test them
+
   ci-test:
     desc: _
     cmds:
