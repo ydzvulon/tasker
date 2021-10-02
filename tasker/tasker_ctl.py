@@ -47,8 +47,9 @@ class TaskfileHandler:
         task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
         return task_obj
 
-    def resolve_static(self):
+    def resolve_static_task(self, taskname):
         # TODO: resolve vars
+        self.world_shadow.get_taskname()
         self.resolve_tasks()
 
     def resolve_tasks(self):

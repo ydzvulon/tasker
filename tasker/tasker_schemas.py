@@ -3,15 +3,18 @@ from typing import List, Dict, Union, Optional
 from pydantic import Field, BaseModel
 
 
-
-
 class TaskGoStepCmd(BaseModel):
     cmd: str
 
 
+class TaskGoStepCmdShadow(BaseModel):
+    origin: Union[str, TaskGoStepCmd]
+    body: str
+
+
 class TaskGoStepTask(BaseModel):
     task: str
-    vars: Dict[str, str]
+    vars: Optional[Dict[str, str]]
 
 
 UnionCommandType = Union[str, TaskGoStepCmd, TaskGoStepTask, Dict[str, str]]
@@ -50,8 +53,6 @@ class TaskComposition:
     tasks: dict
 
 
-
-
 class TaskGoTaskfileRepr(BaseModel):
     version: str
     includes: Optional[TaskGoIncludesDict] = None
@@ -69,6 +70,7 @@ def next_in_list(k, l: list, remove_pair=False):
         del l[idx_k]
     return res
 
+
 def get_from_list(x, ys: list, remove=False):
     """ Returns value from list. Optionally removes.
     Args:
@@ -85,6 +87,7 @@ def get_from_list(x, ys: list, remove=False):
     if remove:
         ys.remove(x)
     return res
+
 
 # ---- abstact commands ---
 

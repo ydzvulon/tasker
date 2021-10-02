@@ -1,7 +1,7 @@
 from typing import Dict, List, Any
 from pydantic import BaseModel, Field
 
-from tasker_schemas import TaskGoTaskfileUnions, TaskGoTaskUnion
+from tasker_schemas import TaskGoTaskfileUnions, TaskGoTaskUnion, TaskGoStepCmdShadow
 
 
 class ShadowFile(BaseModel):
@@ -28,7 +28,7 @@ class ShadowStep(BaseModel):
 
 
 class WorldPartReflection(BaseModel):
-    files:  Dict[str, ShadowFile] = []
+    files: Dict[str, ShadowFile] = []
     stages: Dict[str, ShadowStage] = []
     steps: Dict[str, ShadowStep] = []
     addrbook: Dict[str, Any] = []
@@ -59,6 +59,10 @@ class WorldReflectionHolder:
         pass
 
 
+#
 
-
-
+def walk_on_tasks(taskdoc: TaskGoTaskfileUnions, stage_name: str, journey: dict = None):
+    journey = journey or dict()
+    stage_body = taskdoc.tasks[stage_name]
+    if isinstance(stage_body, str):
+        stage_body = TaskGoStepCmdShadow()
