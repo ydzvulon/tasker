@@ -24,7 +24,7 @@ tasks:
 def test_suite__taskerctl():
 
     print("@@act=declare block=step name=test-list-tasks goal='test list_tasks method'")
-    hand = tasker_ctl.TaskHandler(text=TASKFILE_TEXT)
+    hand = tasker_ctl.TaskfileHandler(text=TASKFILE_TEXT)
     expected = ['first', 'second', 'body']
     actual = [it[0] for it in hand.list_tasks()]
     assert set(expected) == set(actual)

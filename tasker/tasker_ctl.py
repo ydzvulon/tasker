@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import fire
 import yaml
 import sys
@@ -5,7 +6,7 @@ from pathlib import Path
 from typing import Union, Sequence, Tuple
 
 from tasker_schemas import TaskGoTaskfileUnions, TaskGoTask
-from tasker.struct_utils import safe_get
+from struct_utils import safe_get
 import task_keys
 
 
@@ -15,7 +16,7 @@ def to_dict_if_exists(**kwargs):
             yield k, v
 
 
-class TaskHandler:
+class TaskfileHandler:
     def __init__(self, *,
                  text: str = None,
                  upath: Path = None,
@@ -40,19 +41,9 @@ class TaskHandler:
         for (name, task_dict) in self.taskfile_obj.tasks.items():
             yield name, safe_get('desc', task_dict)
 
-    def recognize_stage(self, name: str):
-        """
-        Convert Steps to Classified Representation
-        Args:
-            name: name of stage to proceed
-
-        Returns:
-
-        """
+    def get_stage(self, name:str):
         task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
-        for step in safe_get(task_keys.cmds, task_obj):
-            recognize_step(step)
-
+        return task_obj
 
 
 def upath_to_taskfile(upath: str) -> str:
@@ -68,14 +59,14 @@ class TaskerCli:
     def __init__(self):
         pass
 
-    def get_task_handler(self, taskfile=None) -> TaskHandler:
-        if taskfile == '-':
+    def get_task_handler(self, taskfile=None) -> TaskfileHandler:
+        if taskfile in ['-', '_']:
             data = yaml.safe_load(sys.stdin)
         else:
             taskfile = upath_to_taskfile(taskfile)
             with open(taskfile, "r") as stream:
                 data = yaml.safe_load(stream)
-        res = TaskHandler(treedict=data)
+        res = TaskfileHandler(treedict=data)
         return res
 
     def list_includes(self, taskfile):

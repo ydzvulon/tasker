@@ -3,6 +3,8 @@ from tasker_schemas import UnionCommandType, TaskGoStepCmd, TaskGoStepTask
 
 # class BashGoCmd:
 
+class StepMetaInfo:
+    pass
 
 def recognize_steps(steps):
     pass
@@ -21,5 +23,12 @@ def recognize_step(step: UnionCommandType):
         cmd_block = None
 
 
+def recognize_stage(name, treedict):
+    """
+    Convert Steps to Classified Representation
+    Args:
+        name: name of stage to proceed
 
+    Returns:
 
+    """
