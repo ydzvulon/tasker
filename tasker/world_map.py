@@ -61,8 +61,10 @@ class WorldReflectionHolder:
 
 #
 
-def walk_on_tasks(taskdoc: TaskGoTaskfileUnions, stage_name: str, journey: dict = None):
-    journey = journey or dict()
-    stage_body = taskdoc.tasks[stage_name]
-    if isinstance(stage_body, str):
-        stage_body = TaskGoStepCmdShadow()
+# def walk_on_tasks(taskdoc: TaskGoTaskfileUnions, stage_name: str, journey: dict = None):
+#     journey = journey or dict()
+#     stage_body = taskdoc.tasks[stage_name]
+#     if isinstance(stage_body, str):
+#         stage_body = TaskGoStepCmdShadow(origin=stage_body, body=stage_body)
+#     elif
+

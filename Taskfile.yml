@@ -64,8 +64,14 @@ tasks:
     desc: _
     cmds:
       - echo task build-pypi-pack
+      - task: stam
       - echo task build-pyinst-pack
 
+  stam:
+    desc: _
+    cmds:
+      - echo one
+      - task: pyfull
 
   test-them: test them
 
