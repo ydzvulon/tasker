@@ -38,4 +38,3 @@ vars:
     self.tasks.lists.txt:|-
       - doc.read: Taskfile.yml
       - doc.query: '.tasks | keys []'
-      -
