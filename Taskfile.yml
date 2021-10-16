@@ -57,8 +57,8 @@ tasks:
   venv-resolve:
     desc: 'resolve work/test venv={{.const_venv}}'
     vars:
-      deps_conda_run_list_txt: "$(cat version/deps/deps.conda.run.list.txt)"
-      deps_conda_test_list_txt: "$(cat version/deps/deps.conda.test.list.txt)"
+      deps_conda_run_list_txt: "$(cat version/deps/deps.conda.run.list.txt | tr '\n' ' ')"
+      deps_conda_test_list_txt: "$(cat version/deps/deps.conda.test.list.txt | tr '\n' ' ')"
     cmds:
       - |-
         conda list -n {{.const_venv}} 2>/dev/null \
@@ -133,7 +133,7 @@ tasks:
     desc: print flowchart of provided taskfile
     cmds:
       - |-
-        python tasker/tasker_ctl.py \
+        python3 tasker/tasker_ctl.py \
           --upath tests/data/sample-task/Taskfile.yml \
           resolve_static_task \
           ci-flow \
