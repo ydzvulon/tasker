@@ -13,7 +13,7 @@ vars: &as_global_vars
   __NEW_LINE__: |-
     {{if eq OS "windows"}}\\n{{else}}\n{{end}}
   pyinst_entry_point: tasker/tasker_ctl.py
-  source_root: "$(realpath .)"
+  source_root: "$(pwd)"
 
 tasks:
   default:
@@ -37,6 +37,7 @@ tasks:
         export GRSH='"'
         yq read Taskfile.yml --tojson | jq -r '.vars | keys []' \
         | xargs -I@ bash -c 'echo @: "$GRSH$@$GRSH"'
+        
   info:
     desc: main information about this dir api
     silent: true

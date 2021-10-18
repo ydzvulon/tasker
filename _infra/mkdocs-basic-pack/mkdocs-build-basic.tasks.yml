@@ -49,7 +49,8 @@ vars:
 # ## API Settings
 #
 # ```yaml
-  source_root: "$(realpath . 2>/dev/null || echo .)"
+  # _def_source_root: "$(pwd)"
+  # source_root: '{{ default ._def_source_root .source_root}}'
   _title_: pip update tasks for conda env
   _taskfile_name_: mkdocs-build-basic.tasks.yml
   # ### override those settings when used as included-tasker
@@ -131,14 +132,14 @@ tasks:
 #
 # ```yaml
     desc: serve static site with python server
-    silent: yes
+    # silent: yes
     args:
       site_dir: fs path to root of site
       site_port: serving port
     vars:
       site_port: '{{ default "15558" .site_port }}'
-      source_root: '{{ default .source_root .dir }}'
-      site_dir: '$(yq read {{.source_root}}/mkdocs.yml site_dir)'
+      source_root: '{{ default "$(pwd)" .source_root }}'
+      site_dir: '$(yq read {{toSlash .source_root}}/mkdocs.yml site_dir)'
     dir: '{{.source_root}}/{{.site_dir}}'
     cmds:
       - echo "Exposing at $(pwd)"
