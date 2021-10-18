@@ -1,5 +1,10 @@
 # Tasker Changelog
 
+
+## v0.0.3-d2021.10-...
+
+- restructure docs
+
 ## v0.0.2-d2021.10-17
 
 - build with nuitka
