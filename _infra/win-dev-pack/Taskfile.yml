@@ -2,8 +2,8 @@
 
 version: '3'
 
-vars:
-  GREETING: Hello, World!
+includes:
+  cmder: cmder
 
 tasks:
   default:
@@ -11,10 +11,6 @@ tasks:
       - task -l
     silent: true
 
-  cmder-shell:
-    desc: enter to cmder shell
-    cmds:
-      - cmd /k C:\\Users\\user\\Apps\\cmder\\vendor\\bin\\vscode_init.cmd
-    interactive: true
+
 
   
