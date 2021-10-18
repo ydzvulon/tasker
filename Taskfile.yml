@@ -3,6 +3,8 @@
 version: '3'
 includes:
   build-exe: tasks/build.exe.tasks.yml
+  docs-builder: _infra/mkdocs-basic-pack/mkdocs-build-basic.tasks.yml
+  docs-publisher: tasks/mkdocs-publish.tasks.yml
 
 vars: &as_global_vars
   GREETING: Hello, World!
@@ -10,6 +12,8 @@ vars: &as_global_vars
   conf_python_version: python=3.8
   __NEW_LINE__: |-
     {{if eq OS "windows"}}\\n{{else}}\n{{end}}
+  pyinst_entry_point: tasker/tasker_ctl.py
+  source_root: "$(realpath .)"
 
 tasks:
   default:
@@ -88,6 +92,13 @@ tasks:
     silent: true
     cmds:
       - echo conda activate {{.const_venv}}
+
+  venv-active-shell:
+    desc: show command for venv activation
+    silent: true
+    interactive: true
+    cmds:
+      - cmd /k conda activate yd-int-cli-cenv
 
   with-venv:
     desc: run command within the venv

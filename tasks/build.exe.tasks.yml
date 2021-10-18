@@ -14,4 +14,4 @@ tasks:
   pyinst-build-exe:
     desc: _
     cmds:
-    - pyinstaller yd_int_cli.py --log-level=INFO --onefile
+    - pyinstaller {{.pyinst_entry_point}} --log-level=INFO --onefile
