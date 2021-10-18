@@ -5,7 +5,9 @@ version: '3'
 vars: &as_global_vars
   GREETING: Hello, World!
   const_venv: tasker-test-env
-  conf_python_version: python=3.9
+  conf_python_version: python=3.8
+  __NEW_LINE__: |-
+    {{if eq OS "windows"}}\\n{{else}}\n{{end}}
 
 tasks:
   default:
@@ -14,6 +16,12 @@ tasks:
       - task: info
 
   # --- standard tasker extension tasks ----
+  list:
+    desc: list all tasks
+    silent: true
+    cmds:
+      - task -l
+
   _dump_vars:
     desc: dumps tasker vars
     silent: true
@@ -57,16 +65,21 @@ tasks:
   venv-resolve:
     desc: 'resolve work/test venv={{.const_venv}}'
     vars:
-      deps_conda_run_list_txt: "$(cat version/deps/deps.conda.run.list.txt | tr '\n' ' ')"
-      deps_conda_test_list_txt: "$(cat version/deps/deps.conda.test.list.txt | tr '\n' ' ')"
+      deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
+      deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
     cmds:
       - |-
         conda list -n {{.const_venv}} 2>/dev/null \
-        || conda create -n {{.const_venv}} {{.conf_python_version}} -y
-        conda install -y -n {{.const_venv}} \
-          {{.deps_conda_run_list_txt}} \
-          {{.deps_conda_test_list_txt}}
+        || conda create -n {{.const_venv}} {{.conf_python_version}} pip PyInstaller -y
+      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_run_list_txt}}
+      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_test_list_txt}}
+      #    --no-capture-output
 
+  venv-remove:
+    desc: removes working conda env. reqires flag. --force
+    status: ['true']
+    cmds:
+      - conda env remove -n {{.const_venv}}
 
   venv-active-show:
     desc: show command for venv activation
@@ -133,7 +146,7 @@ tasks:
     desc: print flowchart of provided taskfile
     cmds:
       - |-
-        python3 tasker/tasker_ctl.py \
+        python tasker/tasker_ctl.py \
           --upath tests/data/sample-task/Taskfile.yml \
           resolve_static_task \
           ci-flow \
