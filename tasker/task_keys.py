@@ -1,0 +1,16 @@
+"""
+Taskfile well known tokens
+"""
+
+cmds: str = "cmds"
+vars: str = "vars"
+tasks: str = "tasks"
+cmd: str = "cmd"
+task: str = "task"
+desc: str = "desc"
+silent: str = "silent"
+generates: str = "generates"
+sources: str = "sources"
+preconditions: str = "preconditions"
+status: str = "status"
+ignore_errors: str = "ignore_errors"

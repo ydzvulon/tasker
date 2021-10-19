@@ -3,4 +3,3 @@ loguru
 pyyaml
 pydantic
 fastapi
-PyInstaller

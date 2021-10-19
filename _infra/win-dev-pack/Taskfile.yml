@@ -1,0 +1,16 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  cmder: cmder
+
+tasks:
+  default:
+    cmds:
+      - task -l
+    silent: true
+
+
+
+  

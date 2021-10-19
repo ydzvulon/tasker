@@ -1,0 +1,40 @@
+
+vars:
+  __def_tools: |-
+      # yq toold definition
+      ---
+      tool: yq3
+      export:
+      - {command: read.doc:fs, pattern: '*.yml'}
+      - {line: yq3 =method =src_file =opt}
+      - {schema: yq3 =method:[read|write] =src_file:[*.ya?ml] =opt=[--json]}
+      - {cmdinfo: tool=yq3 method=read src_file=Taskfile.yml opt=--json}
+      - {sample: tool=yq3 method=read src_file=Taskfile.yml opt=--json}
+      ---
+      smart-cmd:
+
+  _grow_: |-
+    load: =read
+    dir_content_long: method=read source=Taskfile.yml
+    # create.view by=echo task.name=task.dest
+    ---
+    - load:dir_content_doc: read.doc=Taskfile.yml
+    - morph:dir_content_doc:dir_content_nice jq='.tasks | keys []' opt=-r
+    - save:dir_content_nice: write.doc=.stdin.
+
+  _grow_2: |-
+    self.tasks.lists.txt:|-
+      load=Taskfile.yml:doc query=.tasks | keys []':jq
+
+  _grow_3: |-
+    self.tasks.lists.txt:|-
+      - def:source.path: Taskfile.yml
+      - def.doc.raw 'read.to.doc'
+      - doc.query: '.tasks | keys []'
+      - doc.format: --tojson
+
+
+  _grow_4: |-
+    self.tasks.lists.txt:|-
+      - doc.read: Taskfile.yml
+      - doc.query: '.tasks | keys []'

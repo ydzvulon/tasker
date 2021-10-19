@@ -1,0 +1,17 @@
+version: "3"
+tasks:
+  nuitka-build-exe:
+    desc: _
+    cmds:
+    - python -m nuitka --follow-imports --standalone yd_int_cli.py
+    # --recurse-all  --show-progress
+
+  nuitka-install-nuitka:
+    desc: _
+    cmds:
+    - python -m pip install nuitka
+
+  pyinst-build-exe:
+    desc: _
+    cmds:
+    - pyinstaller {{.pyinst_entry_point}} --log-level=INFO --onefile

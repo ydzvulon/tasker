@@ -1,42 +1,105 @@
 # https://taskfile.dev
 
 version: '3'
+includes:
+  build-exe: tasks/build.exe.tasks.yml
+  docs-builder: _infra/mkdocs-basic-pack/mkdocs-build-basic.tasks.yml
+  docs-publisher: tasks/mkdocs-publish.tasks.yml
 
-vars:
+vars: &as_global_vars
   GREETING: Hello, World!
   const_venv: tasker-test-env
-  conf_python_version: python=3.9
+  conf_python_version: python=3.8
+  __NEW_LINE__: |-
+    {{if eq OS "windows"}}\\n{{else}}\n{{end}}
+  pyinst_entry_point: tasker/tasker_ctl.py
+  source_root: "$(pwd)"
 
 tasks:
   default:
-    cmds:
-      - task -l || true
     silent: true
+    cmds:
+      - task: info
+
+  # --- standard tasker extension tasks ----
+  list:
+    desc: list all tasks
+    silent: true
+    cmds:
+      - task -l
+
+  _dump_vars:
+    desc: dumps tasker vars
+    silent: true
+    env: *as_global_vars
+    cmds:
+      - |-
+        export GRSH='"'
+        yq read Taskfile.yml --tojson | jq -r '.vars | keys []' \
+        | xargs -I@ bash -c 'echo @: "$GRSH$@$GRSH"'
+        
+  info:
+    desc: main information about this dir api
+    silent: true
+    vars:
+      main_task_list: >-
+        info
+        '"venv-resolve"'
+        '"ci-flow"'
+        '"run-test-gen-flowchart"'
+    cmds:
+      - echo '----------    META     --------------'
+      - |-
+        echo "\
+        dirname: $(basename $(pwd))
+        dirpath: $(pwd)
+        filename: Taskfile.yml\
+        "
+      - echo '----------    VARS     --------------'
+      - task: _dump_vars
+      - echo '----------    TASKS     --------------'
+      - |-
+        for stage in {{.main_task_list}}; do
+          _desc=$(yq read Taskfile.yml --tojson | jq -r .tasks."$stage".desc)
+          printf "%-30s %-40s\n" "* $(echo $(echo $stage))" " * $_desc"
+        done
+      - echo '--------------------------------------'
+      - echo 'for full tasklist please run "task -l"'
+
+
+  # --- \standard tasker extension tasks ----
 
   venv-resolve:
     desc: 'resolve work/test venv={{.const_venv}}'
     vars:
-      deps_conda_run_list_txt: "$(cat version/deps/deps.conda.run.list.txt)"
-      deps_conda_test_list_txt: "$(cat version/deps/deps.conda.test.list.txt)"
+      deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
+      deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
     cmds:
       - |-
         conda list -n {{.const_venv}} 2>/dev/null \
-        || conda create -n {{.const_venv}} {{.conf_python_version}} -y
-        conda install -y -n {{.const_venv}} \
-          {{.deps_conda_run_list_txt}} \
-          {{.deps_conda_test_list_txt}}
+        || conda create -n {{.const_venv}} {{.conf_python_version}} pip PyInstaller -y
+      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_run_list_txt}}
+      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_test_list_txt}}
+      #    --no-capture-output
 
-  dump-conda-deps-lock:
-    desc: dump conda packages state to
+  venv-remove:
+    desc: removes working conda env. reqires flag. --force
+    status: ['true']
     cmds:
-      - conda list -e > version/locks/deps.conda.dev-env.lock.list.txt
-      - pip freeze > version/locks/deps.pip.dev-env.lock.list.txt
+      - conda env remove -n {{.const_venv}}
 
   venv-active-show:
     desc: show command for venv activation
     silent: true
     cmds:
       - echo conda activate {{.const_venv}}
+
+  venv-active-shell:
+    desc: show command for venv activation
+    silent: true
+    interactive: true
+    cmds:
+      - cmd /k conda activate yd-int-cli-cenv
 
   with-venv:
     desc: run command within the venv
@@ -58,7 +121,7 @@ tasks:
       - echo tests:run-all-tests no_install=true
 
   ci-flow:
-    desc: _
+    desc: resolve deps, build product and test validate
     cmds:
       - task verify-request
       - task pre-build-test
@@ -69,11 +132,37 @@ tasks:
     desc: _
     cmds:
       - echo task build-pypi-pack
+      - task: stam
       - echo task build-pyinst-pack
+
+  stam:
+    desc: _
+    cmds:
+      - echo one
+      - task: pyfull
+
+  test-them: test them
 
   ci-test:
     desc: _
     cmds:
       - echo task test
 
+  pyfull:
+    desc: _
+    cmds:
+    - |-
+      python - << EOF | tee /tmp/tt.txt
+      print("hello")
+      EOF
+
+  run-test-gen-flowchart:
+    desc: print flowchart of provided taskfile
+    cmds:
+      - |-
+        python tasker/tasker_ctl.py \
+          --upath tests/data/sample-task/Taskfile.yml \
+          resolve_static_task \
+          ci-flow \
+          jorney
 

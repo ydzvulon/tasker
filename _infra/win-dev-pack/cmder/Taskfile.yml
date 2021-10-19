@@ -1,0 +1,38 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  remote_arch: https://github.com/cmderdev/cmder/releases/download/v1.3.18/cmder.zip
+  cmder_aliases: |-
+    ;= @echo off
+    ;= rem Call DOSKEY and use this file as the macrofile
+    ;= %SystemRoot%\system32\doskey /listsize=1000 /macrofile=%0%
+    ;= rem In batch mode, jump to the end of the file
+    ;= goto:eof
+    ;= Add aliases below here
+    e.=explorer .
+    gl=git log --oneline --all --graph --decorate  $*
+    ls=ls --show-control-chars -F --color $*
+    pwd=cd
+    clear=cls
+    history=cat "%CMDER_ROOT%\config\.history"
+    unalias=alias /d $1
+    vi=vim $*
+    cmderr=cd /d "%CMDER_ROOT%"
+
+    ll=ls -la
+
+
+tasks:
+  info:
+    desc: _
+    silent: true
+    cmds:
+    - echo -E '{{.cmder_aliases  }}'
+
+  cmder-shell:
+    desc: enter to cmder shell
+    cmds:
+      - cmd /k C:\\Users\\user\\Apps\\cmder\\vendor\\bin\\vscode_init.cmd
+    interactive: true
