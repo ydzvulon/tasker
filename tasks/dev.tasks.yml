@@ -2,21 +2,10 @@ version: "3"
 
 tasks:
 
-  _run__the_cmdline:
-    cmds: &_run__the_cmdline
-    - cmd: '{{.the_cmdline}}'
-
-
   where_is_python:
     desc: shows path for python. current for windows/cmder/git-bash
-    vars:
-      where_is_python__windows:  |-
-        which python | sed "s/\/c\//C:\\\\/g" | tr "/" "\\\\"
-      the_cmdline: >-
-        {{if eq OS "windows"}}
-        {{.where_is_python__windows}}
-        {{end}}
-    cmds: *_run__the_cmdline
+    cmds:
+    - cmd: python -c "import sys; print(sys.executable)"
 
 
 
