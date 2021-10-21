@@ -13,6 +13,13 @@ tasks:
     cmds:
       - task: info
 
+  .:git-ignore-append-untracked:
+    desc: appends untracked dirs to the end of .gitignore
+    cmds:
+      - git add .gitignore || true
+      - git status -s | grep "??" | cut -d" " -f2 | tee -a .gitignore
+      - git diff .gitignore | tee
+
   # --- standard tasker extension tasks ----
   _dump_vars:
     desc: dumps tasker vars
