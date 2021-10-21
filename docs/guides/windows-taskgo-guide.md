@@ -1,5 +1,6 @@
 # Task and Windows
 
+
 On Windows we assume WSL with linux and bash 
 so it's the same as linux in docker
 
@@ -122,3 +123,8 @@ Please see https://taskfile.dev/#/usage?id=gos-template-engine
 
 when working in cmder taskgo will output colors to console.
 to disable it use `set NO_COLOR=1`
+
+## See Also
+
+- https://conemu.github.io/en/wsl.html#start
+- https://dev.to/stack-labs/introduction-to-taskfile-a-makefile-alternative-h92
