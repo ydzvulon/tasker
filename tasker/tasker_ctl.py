@@ -63,7 +63,7 @@ class TaskfileHandler:
         if world is None:
             world = {'unknown': {}, 'known': {}, 'jorney': []}
             world['unknown'].update({taskname: {}})
-            world['jorney'].append('A_ ' + f'--> {taskname}')
+            world['jorney'].append('A_["_init_"] ' + f'--> {taskname}')
 
         stage = self.taskfile_obj.tasks[taskname]
         next_stages = {}
@@ -73,7 +73,7 @@ class TaskfileHandler:
                 'origin': copy.deepcopy(stage),
                 'body': copy.deepcopy(stage),
             }
-            world['jorney'].append( f'{taskname} -->' + ' Z_')
+            world['jorney'].append( f'{taskname} -->' + ' Z_["_over"]')
         else:
             stage: TaskGoTask
             for cmd_item in stage.cmds:
