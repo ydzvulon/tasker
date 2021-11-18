@@ -50,7 +50,7 @@ class TaskfileHandler:
         for (name, task_dict) in self.taskfile_obj.tasks.items():
             yield name, safe_get('desc', task_dict)
 
-    def get_stage(self, name:str):
+    def get_section(self, name:str):
         task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
         return task_obj
 

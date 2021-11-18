@@ -1,5 +1,19 @@
 # tasker
 
+
+## Get Started
+
+### Documentation 
+
+```bash
+# To see documentation site in the browser run
+task docs-builder:serve-source
+```
+
+### Data For Tests
+
+- [sample taskfile](./tests/data/sample-task/Taskfile.yml)
+
 ## Dev Area
 
 === "C"
