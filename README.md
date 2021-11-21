@@ -1,9 +1,47 @@
-# tasker
+# Tasker
 
+
+## Content
+
+task go next level
+
+```mermaid
+flowchart TB
+    A_[_INIT_] --> ci-flow
+    ci-flow --> one
+    ci-flow --> two
+    ci-flow --> three
+    one --> Z_
+    two --> three
+    three --> four
+    four --> Z_[_OVER_]
+    Z_ --> K("HI LIOR")
+```
+
+
+**Tasker**  is a ui and analitics tool,
+that works with taskfile configurations.
+
+Sample Configurations can be found in
+
+- [in this repo at ./tests/data](./tests/data)
+- [in yd-tut-tasks](http://yairdar.github.io/ydu-tasfile-tut)
+
+## Prerequisites
+
+!!! tip "Basic Tools"
+    We use [task go](http://taskfile.dev)
 
 ## Get Started
 
-### Documentation 
+Create a dev environment
+
+```bash
+# To Create A dev/test environment
+task venv-resolve
+
+```
+### Documentation
 
 ```bash
 # To see documentation site in the browser run
@@ -37,20 +75,3 @@ task docs-builder:serve-source
         four --> Z_[_OVER_]
         Z_ --> K("HI LIOR")
     ```
-
-## Content
-
-task go next level
-
-```mermaid
-flowchart TB
-    A_[_INIT_] --> ci-flow
-    ci-flow --> one
-    ci-flow --> two
-    ci-flow --> three
-    one --> Z_
-    two --> three
-    three --> four
-    four --> Z_[_OVER_]
-    Z_ --> K("HI LIOR")
-```
