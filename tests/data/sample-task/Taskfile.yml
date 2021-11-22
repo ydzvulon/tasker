@@ -27,12 +27,12 @@ tasks:
           v1: 1
       - task: three
 
-  one: df -j
+  one: df
 
   three:
     desc: _
     cmds:
-      - echo '{{.TASK}}
+      - echo '{{.TASK}}'
       - task one
       - task: four
 
@@ -46,4 +46,4 @@ tasks:
       - echo 'a b c d' | xargs echo ----
 
 
-  four: ls -l | xarg echo
+  four: ls -l | xargs echo

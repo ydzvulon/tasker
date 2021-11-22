@@ -1,0 +1,55 @@
+{
+  "version": "3",
+  "vars": {
+    "GREETING": "Hello, World!"
+  },
+  "tasks": {
+    "default": {
+      "cmds": [
+        "echo \"{{.GREETING}}\""
+      ],
+      "silent": true
+    },
+    "ci-flow": {
+      "cmds": [
+        {
+          "task": "one"
+        },
+        {
+          "task": "two",
+          "vars": {
+            "v1": 1
+          }
+        },
+        {
+          "task": "three"
+        }
+      ]
+    },
+    "one": "df ",
+    "three": {
+      "desc": "_",
+      "cmds": [
+        "echo '{{.TASK}}'",
+        "task one",
+        {
+          "task": "four"
+        }
+      ]
+    },
+    "two": {
+      "desc": "_",
+      "deps": [
+        "four"
+      ],
+      "cmds": [
+        "echo gariba",
+        {
+          "task": "three"
+        },
+        "echo 'a b c d' | xargs echo ----"
+      ]
+    },
+    "four": "ls -l | xargs echo"
+  }
+}
