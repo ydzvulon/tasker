@@ -44,6 +44,10 @@ yaml_parsed['tasks']['ci-flow']['cmds']
 type(yaml_parsed['tasks']['ci-flow']['cmds'])
 
 # %%
+
+# %%
+
+# %%
 type(yaml_parsed)
 
 # %%
