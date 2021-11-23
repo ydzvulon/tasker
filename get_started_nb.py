@@ -1,9 +1,42 @@
 # %%
+# !pwd
+
+# %%
+# !cd tasker
+
+# %%
+import sys
+
+# %%
+sys.path.append('tasker')
+
+# %%
+
+# %%
+
+# %%
 import tasker_ctl
+
+# %%
 
 # %%
 tf_path = 'tests/data/sample-task/Taskfile.yml'
 tfh = tasker_ctl.TaskfileHandler(upath=tf_path)
+
+# %%
+# tfh.resolve_static_task?
+
+# %%
+from pandas import DataFrame
+
+# %%
+# !pip install pandas
+
+# %%
+import yaml
+
+# %%
+# yaml.safe_load?
 
 # %%
 

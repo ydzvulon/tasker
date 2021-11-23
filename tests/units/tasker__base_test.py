@@ -1,3 +1,4 @@
+from tasker_ctl import TaskfileHandler
 from tasker_schemas import TaskGoStepTask
 
 
@@ -15,6 +16,12 @@ def test__some_tasks_go_step():
     _aux__assert_step_taskname(the_it)
 
 
+def test__resolve_static_task():
+    from pathlib import Path
+    upath = Path('../../tests/data/sample-task/Taskfile.yml')
+    handler = TaskfileHandler(upath=upath)
+    the_three = handler.resolve_static_task('three')
+    print(the_three)
 
 
 

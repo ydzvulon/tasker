@@ -55,9 +55,17 @@ class TaskfileHandler:
         return task_obj
 
     def resolve_static_task(self, taskname):
+        """
+        Start from provided taskname, and create dependency graph for it
+        using tree walk-through.
+        Args:
+            taskname: taskname to unfold
+
+        Returns: dict with keys journey, known and unknown
+        """
         return self._resolve_static_task(taskname)
 
-    def _resolve_static_task(self, taskname, world=None):
+    def _resolve_static_task(self, taskname, world=None) -> dict:
         # TODO: resolve vars
         import copy
         if world is None:
