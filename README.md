@@ -1,25 +1,6 @@
 # Tasker
 
-
-## Content
-
-task go next level
-
-```mermaid
-flowchart TB
-    A_[_INIT_] --> ci-flow
-    ci-flow --> one
-    ci-flow --> two
-    ci-flow --> three
-    one --> Z_
-    two --> three
-    three --> four
-    four --> Z_[_OVER_]
-    Z_ --> K("HI LIOR")
-```
-
-
-**Tasker**  is a ui and analitics tool,
+**Tasker**  is a ui and dependency analytics tool,
 that works with taskfile configurations.
 
 Sample Configurations can be found in
@@ -50,28 +31,7 @@ task docs-builder:serve-source
 
 ### Data For Tests
 
+In this repo we use data for test from jenlib
+
 - [sample taskfile](./tests/data/sample-task/Taskfile.yml)
 
-## Dev Area
-
-=== "C"
-    SDF
-
-=== "PY"
-    DPDP
-
-## Sample indented flowchart
-???+ tip "sldkfj"
-
-    ```mermaid
-    flowchart TB
-        A_[_INIT_] --> ci-flow
-        ci-flow --> one
-        ci-flow --> two
-        ci-flow --> three
-        one --> Z_
-        two --> three
-        three --> four
-        four --> Z_[_OVER_]
-        Z_ --> K("HI LIOR")
-    ```
