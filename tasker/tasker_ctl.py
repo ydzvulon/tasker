@@ -87,9 +87,10 @@ class TaskfileHandler:
             for cmd_item in stage.cmds:
                 if isinstance(cmd_item, TaskGoStepTask):
                     next_stage = cmd_item.task
-                elif isinstance(cmd_item, dict) and 'task'in cmd_item:
+                elif isinstance(cmd_item, dict) and 'task' in cmd_item:
                     next_stage = cmd_item['task']
                 else:
+                    # TODO: parse bash command, if its task X try to dig into this like a static step
                     next_stage = None
                 if next_stage:
                     if next_stage not in world['known']:

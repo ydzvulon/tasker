@@ -28,13 +28,14 @@ tasks:
       - task: three
 
   one: df
+  tricky-one: task one  # this is calling task via bash
 
   three:
     desc: _
     cmds:
       - echo '{{.TASK}}'
       - task one
-      - task: four
+      - task: four # this is calling task via task-go executor (no bash)
 
   two:
     desc: _

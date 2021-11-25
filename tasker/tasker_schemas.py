@@ -17,6 +17,7 @@ class TaskGoStepTask(BaseModel):
     vars: Optional[Dict[str, str]]
 
 
+
 UnionCommandType = Union[str, TaskGoStepCmd, TaskGoStepTask, Dict[str, str]]
 
 
