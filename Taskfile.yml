@@ -35,7 +35,7 @@ tasks:
     cmds:
       - |-
         export GRSH='"'
-        yq read Taskfile.yml --tojson | jq -r '.vars | keys []' \
+        yq eval Taskfile.yml -o=json | jq -r '.vars | keys []' \
         | xargs -I@ bash -c 'echo @: "$GRSH$@$GRSH"'
         
   info:
@@ -60,7 +60,7 @@ tasks:
       - echo '----------    TASKS     --------------'
       - |-
         for stage in {{.main_task_list}}; do
-          _desc=$(yq read Taskfile.yml --tojson | jq -r .tasks."$stage".desc)
+          _desc=$(yq eval Taskfile.yml -o=json | jq -r .tasks."$stage".desc)
           printf "%-30s %-40s\n" "* $(echo $(echo $stage))" " * $_desc"
         done
       - echo '--------------------------------------'
