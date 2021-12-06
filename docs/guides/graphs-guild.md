@@ -1,6 +1,6 @@
 # Graph rendering
 
-## Amaizing python grapch gallery
+## Amaizing python graph gallery
 
 - https://www.python-graph-gallery.com/barplot/
 
