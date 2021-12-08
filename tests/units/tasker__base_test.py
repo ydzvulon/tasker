@@ -18,8 +18,12 @@ def test__some_tasks_go_step():
 
 def test__resolve_static_task():
     from pathlib import Path
-    upath = Path('../../tests/data/sample-task/Taskfile.yml')
-    handler = TaskfileHandler(upath=upath)
+    # ---- python same logic
+    from pathlib import Path
+    me_ = Path(__file__)
+    root_repo = me_.parent.parent.parent
+    the_test_taskfile = root_repo / "tests/data/sample-task/Taskfile.yml"
+    handler = TaskfileHandler(upath=the_test_taskfile)
     the_three = handler.resolve_static_task('three')
     print(the_three)
 
