@@ -28,4 +28,28 @@ def test__resolve_static_task():
     print(the_three)
 
 
+def test__to_dict_if_exists_empty():
+    # arrange
+    from tasker_ctl import to_dict_if_exists
+    # act
+    inp = {}
+    actual = [(k, v) for k, v in to_dict_if_exists(**inp)]
+    # assert
+    expected = []
+    assert expected == actual
 
+
+def test__to_dict_if_exists_two_values():
+    # arrange
+    from tasker_ctl import to_dict_if_exists
+    # act
+    inp1 = dict(arg1=1, arg2="2",
+                argNone=None)
+    # , argNothing = NotImplemented
+    inp2 = {"arg1": 1, "arg2": "2", "argNone": None}
+    actual1 = [(k, v) for k, v in to_dict_if_exists(**inp1)]
+    actual2 = [(k, v) for k, v in to_dict_if_exists(**inp2)]
+    # assert
+    expected = [("arg1", 1), ("arg2", "2")]
+    assert expected == actual1
+    assert expected == actual2
