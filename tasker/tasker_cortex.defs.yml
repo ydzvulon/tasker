@@ -31,7 +31,7 @@ vars:
       - def:source.path: Taskfile.yml
       - def.doc.raw 'read.to.doc'
       - doc.query: '.tasks | keys []'
-      - doc.format: --tojson
+      - doc.format: -o=json
 
 
   _grow_4: |-
