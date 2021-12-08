@@ -74,6 +74,7 @@ class TaskfileHandler:
             world = {'unknown': {}, 'known': {}, 'jorney': []}
             world['unknown'].update({taskname: {}})
             world['jorney'].append('A_["_init_"] ' + f'--> {taskname}')
+            world['full_jorney'].append('A_["_init_"] ' + f'--> {taskname}')
 
         stage = self.taskfile_obj.tasks[taskname]
         next_stages = {}
@@ -91,6 +92,8 @@ class TaskfileHandler:
                     next_stage = cmd_item.task
                 elif isinstance(cmd_item, dict) and 'task' in cmd_item:
                     next_stage = cmd_item['task']
+                elif isinstance(cmd_item, TaskGoStepCmd):
+                    next_stage = cmd_item
                 else:
                     # TODO: parse bash command, if its task X try to dig into this like a static step
                     next_stage = None
