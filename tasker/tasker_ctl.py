@@ -165,9 +165,9 @@ def cli_and_py_billing_sample():
 if __name__ == '__main__':
     print(os.getcwd())
     # exit(0)
-    # fire.Fire(TaskfileHandler)
+    fire.Fire(TaskfileHandler)
     ### Coment out for testing
-    cli_and_py_billing_sample()
+    # cli_and_py_billing_sample()
 
 
 
