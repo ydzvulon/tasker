@@ -29,6 +29,11 @@ tasks:
     cmds:
       - task -l
 
+  test:
+    desc: "Run all tests"
+    cmds:
+      - coverage run -m pytest -s  tests && coverage html
+
   _dump_vars:
     desc: dumps tasker vars
     silent: true
