@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import os
+
 import fire
 import yaml
 import sys
@@ -20,7 +22,7 @@ def to_dict_if_exists(**kwargs):
 class TaskfileHandler:
     def __init__(self, *,
                  text: str = None,
-                 upath: Path = '.',
+                 upath: Union[Path, str] = '.',
                  treedict: Union[dict, list] = None):
         self.tags = {}
         if text:
@@ -143,6 +145,29 @@ def getcli():
     return TaskfileHandler()
 
 
+def cli_and_py_billing_sample():
+    # ---- python same logic
+    origin_cli = """
+        python tasker/tasker_ctl.py \
+        --upath tests/data/sample-task/Taskfile.yml \
+        resolve_static_task --taskname ci-flow jorney
+    """
+    # ---- python same logic
+    from pathlib import Path
+    me_ = Path(__file__)
+    root_repo = me_.parent.parent
+    the_test_taskfile = root_repo / "tests/data/sample-task/Taskfile.yml"
+    cli = TaskfileHandler(upath=the_test_taskfile)
+    d = cli.resolve_static_task(taskname='ci-flow')
+    print(d['jorney'])
+
+
 if __name__ == '__main__':
-    # TaskfileHandler(upath=Path('../Taskfile.yml'))
-    fire.Fire(TaskfileHandler)
+    print(os.getcwd())
+    # exit(0)
+    # fire.Fire(TaskfileHandler)
+    ### Coment out for testing
+    cli_and_py_billing_sample()
+
+
+
