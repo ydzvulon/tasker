@@ -1,0 +1,77 @@
+version: '3'
+
+tasks:
+  first:
+    desc: 'the fors one'
+    cmds:
+      - task: generate-file
+        vars: { CONTENT: '1' }
+      - task: generate-file
+        vars: { CONTENT: '2' }
+      - task: generate-file
+        vars: { CONTENT: '2' }
+
+  generate-file:
+    run: when_changed
+    deps:
+      - install-deps
+    cmds:
+      - echo {{.CONTENT}}
+
+  install-deps:
+    run: once
+    cmds:
+      - sleep 5 # long operation like installing packages
+
+  print-var:
+    cmds:
+      - echo "{{.VAR}}"
+    vars:
+      VAR: Hello!
+
+
+  print-os:
+    cmds:
+      - echo '{{OS}} {{ARCH}}'
+      - echo '{{if eq OS "windows"}}windows-command{{else}}unix-command{{end}}'
+      # This will be path/to/file on Unix but path\to\file on Windows
+      - echo '{{fromSlash "path/to/file"}}'
+  enumerated-file:
+    vars:
+      CONTENT: |
+        foo
+        bar
+    cmds:
+      - |
+        cat << EOF > output.txt
+        {{range $i, $line := .CONTENT | splitLines -}}
+        {{printf "%3d" $i}}: {{$line}}
+        {{end}}EOF
+  js:
+    cmds:
+      - minify -o public/script.js src/js
+
+## Overriding task name
+  overriding:
+    desc: Overriding task name
+    cmds:
+    - task: print
+      vars:
+        MESSAGE: hello
+    - task: print
+      vars:
+        MESSAGE: world
+
+  print:
+    label: 'print-{{.MESSAGE}}'
+    cmds:
+      - echo "{{.MESSAGE}}"
+
+## ignore error
+  echo1:
+    desc: ignore error
+    cmds:
+      - cmd: exit 1
+        ignore_error: true
+      - echo "Hello World"
+      - cmd: exit 1

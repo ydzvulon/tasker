@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import os
+
 import fire
 import yaml
 import sys
@@ -20,7 +22,7 @@ def to_dict_if_exists(**kwargs):
 class TaskfileHandler:
     def __init__(self, *,
                  text: str = None,
-                 upath: Path = '.',
+                 upath: Union[Path, str] = '.',
                  treedict: Union[dict, list] = None):
         self.tags = {}
         if text:
@@ -50,20 +52,28 @@ class TaskfileHandler:
         for (name, task_dict) in self.taskfile_obj.tasks.items():
             yield name, safe_get('desc', task_dict)
 
-    def get_stage(self, name:str):
+    def get_section(self, name:str):
         task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
         return task_obj
 
     def resolve_static_task(self, taskname):
+        """
+        Start from provided taskname, and create dependency graph for it
+        using tree walk-through.
+        Args:
+            taskname: taskname to unfold
+
+        Returns: dict with keys journey, known and unknown
+        """
         return self._resolve_static_task(taskname)
 
-    def _resolve_static_task(self, taskname, world=None):
+    def _resolve_static_task(self, taskname, world=None) -> dict:
         # TODO: resolve vars
         import copy
         if world is None:
             world = {'unknown': {}, 'known': {}, 'jorney': []}
             world['unknown'].update({taskname: {}})
-            world['jorney'].append('A_ ' + f'--> {taskname}')
+            world['jorney'].append('A_["_init_"] ' + f'--> {taskname}')
 
         stage = self.taskfile_obj.tasks[taskname]
         next_stages = {}
@@ -73,15 +83,16 @@ class TaskfileHandler:
                 'origin': copy.deepcopy(stage),
                 'body': copy.deepcopy(stage),
             }
-            world['jorney'].append( f'{taskname} -->' + ' Z_')
+            world['jorney'].append( f'{taskname} -->' + ' Z_["_over"]')
         else:
             stage: TaskGoTask
             for cmd_item in stage.cmds:
                 if isinstance(cmd_item, TaskGoStepTask):
                     next_stage = cmd_item.task
-                elif isinstance(cmd_item, dict) and 'task'in cmd_item:
+                elif isinstance(cmd_item, dict) and 'task' in cmd_item:
                     next_stage = cmd_item['task']
                 else:
+                    # TODO: parse bash command, if its task X try to dig into this like a static step
                     next_stage = None
                 if next_stage:
                     if next_stage not in world['known']:
@@ -134,6 +145,29 @@ def getcli():
     return TaskfileHandler()
 
 
+def cli_and_py_billing_sample():
+    # ---- python same logic
+    origin_cli = """
+        python tasker/tasker_ctl.py \
+        --upath tests/data/sample-task/Taskfile.yml \
+        resolve_static_task --taskname ci-flow jorney
+    """
+    # ---- python same logic
+    from pathlib import Path
+    me_ = Path(__file__)
+    root_repo = me_.parent.parent
+    the_test_taskfile = root_repo / "tests/data/sample-task/Taskfile.yml"
+    cli = TaskfileHandler(upath=the_test_taskfile)
+    d = cli.resolve_static_task(taskname='ci-flow')
+    print(d['jorney'])
+
+
 if __name__ == '__main__':
-    # TaskfileHandler(upath=Path('../Taskfile.yml'))
-    fire.Fire(TaskfileHandler)
+    print(os.getcwd())
+    # exit(0)
+    # fire.Fire(TaskfileHandler)
+    ### Coment out for testing
+    cli_and_py_billing_sample()
+
+
+

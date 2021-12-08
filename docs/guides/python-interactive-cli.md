@@ -2,7 +2,7 @@
 
 ## References
 
-!!! tip  "python-prompt-toolkit"
+!!! tip "python-prompt-toolkit"
 
     - https://python-prompt-toolkit.readthedocs.io/en/master/
     - https://python-prompt-toolkit.readthedocs.io/en/master/pages/gallery.html#pymux-a-terminal-multiplexer-like-tmux-in-python

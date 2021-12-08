@@ -28,7 +28,7 @@ vars:
         - subrepos:_layout_/reposet.conf.yml@items: |-
             will read repos config from file _layout_/subrepos.conf.yml at key items
             repos will be placed under subrepos dir of current repo
-  
+
   # reposet__conf_map__def: |-
   #   __subdirs:reposet.tasks.yml@parts.reposet.items
 
@@ -37,10 +37,10 @@ vars:
   repos_root: '{{splitList ":" .reposet__conf_map | first }}'
   repos_root_pref: "{{.repos_root}}:"
   items_addr_token: '{{trimPrefix  .repos_root_pref .reposet__conf_map }}'
-  _items_exp: 'yq read {{ .items_addr_token | replace "@" " " }} | yq read - '
+  _items_exp: 'yq eval {{ .items_addr_token | replace "@" " " }} | yq eval - '
   repos_conf_file: '{{splitList "@" .items_addr_token | first }}'
-  reposet__parallel_exp: 'yq read {{.repos_conf_file}} vars.reposet__parallel || echo ""'
-  repos: "$(echo $({{._items_exp}} | yq r - --tojson | jq -r '. | keys[]'))"
+  reposet__parallel_exp: 'yq eval {{.repos_conf_file}} vars.reposet__parallel || echo ""'
+  repos: "$(echo $({{._items_exp}} | yq r - -o=json | jq -r '. | keys[]'))"
   taskpath_arg: "{{if ._taskfile_}} -t {{._taskfile_}}{{else}}{{end}}"
   task_opt: "-o prefixed"
 
@@ -74,12 +74,12 @@ tasks:
     desc: list reposets
     silent: true
     cmds:
-      - |- 
+      - |-
         echo "\
         file_key: {{.repos_conf_file}}
-        place_key: {{.items_addr_token}} 
+        place_key: {{.items_addr_token}}
         items_key: '{{._items_exp}}'
-        items: 
+        items:
         $(echo {{.repos}} | xargs -I% echo '-' %: mkx:repo.key.name)
         "
 
@@ -104,7 +104,7 @@ tasks:
   #         "remote_origin_url": "$(git -C {{.path}}/{} config --get remote.origin.url)", \
   #         "commit": "$(git -C {{.path}}/{} rev-parse --short HEAD)"} \
   #       ' | yq r - '[*]' \
-  #       --tojson {{.rest_choice}} {{.last_suffix}}
+  #       -o=json {{.rest_choice}} {{.last_suffix}}
 
   #   silent: true
 

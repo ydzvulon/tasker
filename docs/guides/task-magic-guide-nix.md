@@ -22,9 +22,8 @@ markdown elements.
 
     This is the second paragraph.
 
-
 === "C"
-    [sdf](sdf)
+[sdf](sdf)
 
     ``` c
     #include <stdio.h>
@@ -47,7 +46,6 @@ markdown elements.
     ```
 
 [comment]: <> (???+)
-[comment]: <> (   sdf)
-[comment]: <> (   sdfds)
-[comment]: <> (   sdfsd)
-
+[comment]: <> ( sdf)
+[comment]: <> ( sdfds)
+[comment]: <> ( sdfsd)

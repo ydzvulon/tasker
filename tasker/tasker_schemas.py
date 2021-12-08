@@ -4,23 +4,38 @@ from pydantic import Field, BaseModel
 
 
 class TaskGoStepCmd(BaseModel):
+    """
+        task with single command
+    """
     cmd: str
 
 
 class TaskGoStepCmdShadow(BaseModel):
+    """
+        indicating which task called me
+    """
     origin: Union[str, TaskGoStepCmd]
     body: str
 
 
 class TaskGoStepTask(BaseModel):
+    """
+        task that calls another task
+    """
     task: str
     vars: Optional[Dict[str, str]]
 
 
-UnionCommandType = Union[str, TaskGoStepCmd, TaskGoStepTask, Dict[str, str]]
+
+UnionCommandType = Union[str, TaskGoStepCmd, TaskGoStepTask, Dict[str, str]] # receive one of the following task types
 
 
 class TaskGoTask(BaseModel):
+    """
+    basic task.
+    contain one or  more cmds in a list form.
+    possible cmds: str, TaskGoStepCmd, TaskGoStepTask, Dict[str, str]
+    """
     desc: Optional[str] = Field(description="description")
     silent: Optional[bool] = Field(False, description="shows commands")
     cmds: List[UnionCommandType]
@@ -37,11 +52,14 @@ class TaskGoIncludeItem(BaseModel):
 TaskGoIncludeItemFull = Union[str, TaskGoIncludeItem]
 
 TaskGoIncludesDict = Dict[str, TaskGoIncludeItem]
-TaskGoVarsDict = Dict[str, str]
+TaskGoVarsDict = Dict[str, str] # variables in key:value form
 TaskGoTaskDict = Dict[str, TaskGoTaskUnion]
 
 
 class TaskGoTaskfileUnions(BaseModel):
+    """
+
+    """
     version: str
     includes: Optional[TaskGoIncludesDict] = None
     vars: Optional[TaskGoVarsDict] = None
