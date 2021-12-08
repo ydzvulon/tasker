@@ -27,7 +27,7 @@ tasks:
           v1: 1
       - task: three
 
-  one: df
+  one: df # TaskGoTask
   tricky-one: task one  # this is calling task via bash
 
   three:
