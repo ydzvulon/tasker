@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 from loguru import logger
 from pytest_steps import test_steps
 import tasker_ctl
@@ -73,3 +76,52 @@ def test__tree_dict__resolve_static_task_input_arg_for_tasker_from_scratch():
 #
 #     handler = tasker_ctl.TaskfileHandler(treedict=treedict)
 #     expected = ['first', 'second', 'body', 'new_task']
+
+
+def test_suite__taskerctl_2_input_validation(tmpdir):
+    # arrange
+    print("sadfasdfsldihflsdiuflisdhjlisdjflsdkjfl;ksdkj;j")
+    print(os.getcwd())
+    pp = Path('.') / '__tmp__' / '__tmp__'
+    pp.mkdir(exist_ok=True, parents=True)
+    os.chdir(str(pp))
+    try:
+    # act
+        hand = tasker_ctl.TaskfileHandler()
+        assert False
+    except ValueError as err:
+        err_str = str(err)
+        # assert
+        assert "original path . resolved to Taskfile.yml. taskfile dont exist" in err_str
+    except Exception as ex:
+        print(ex)
+
+
+
+# def test_suite__taskerctl_2_input_validation():
+#     # arrange
+#     import pytest
+#     with pytest.raises(ValueError) as excinfo:
+#         hand = tasker_ctl.TaskfileHandler()
+def test_recursion_depth():
+    import pytest
+    # arrange
+    def f():
+        f()
+    with pytest.raises(RuntimeError) as excinfo:
+        f()
+    assert "maximum recursion" in str(excinfo.value)
+
+
+def test_recursion_depth_exc():
+    def f():
+        f()
+
+    try:
+        f()
+    except RuntimeError as ex:
+        assert "maximum recursion" in str(ex)
+
+if __name__ == '__main__':
+    import fire
+    fire.Fire()
