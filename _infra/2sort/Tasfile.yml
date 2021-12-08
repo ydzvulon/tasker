@@ -1,0 +1,111 @@
+# TODO: make this work or delete
+
+.:git-ignore-append-untracked:
+    desc: appends untracked dirs to the end of .gitignore
+    cmds:
+      - git add .gitignore || true
+      - git status -s | grep "??" | cut -d" " -f2 | tee -a .gitignore
+      - git diff .gitignore | tee
+
+
+  toolcmd:upath-sync:
+    env:
+      _src: '{{._src}}'
+      _dst: '{{._dst}}'
+    vars:
+      cmdl: |-
+        curl -L $_src --output $_dst \
+        && echo "downloaded=file name=$_dst" \
+        && chmod +x $_dst \
+        && ./yq4 --version
+    cmds: ['{{.cmdl}}']
+
+  toolcmd:install-exe: &install_exe
+    desc: '{{.TASK}}'
+    cmds:
+    - task: toolcmd:upath-sync
+      vars:
+        _src: '{{._src}}'
+        _dst: '{{trimPrefix "toolcmd:install-tool/" .TASK}}'
+
+
+  toolcmd:install-tool/yq4:
+    desc: "{{.TASK}}"
+    vars:
+      _src: https://github.com/mikefarah/yq/releases/download/v4.13.5/yq_darwin_amd64
+    cmds: [{task: toolcmd:upath-sync, vars:{_src: }}]
+
+  toolcmd:git-commit:
+    desc: |-
+      commit lates changes: tagTitle
+      sample: task toolcmd:git-commit add=modified msg='add _venv to .gitignore'
+    vars:
+      _args_: |-
+        add: default=modified kind=choice values=modified,untracked
+        msg: required=True 'add _venv to .gitignore'
+      _tool_: git commit
+      add_modified__opt: '{{if .add_modified}} -a{{end}}'
+    cmds:
+    - |-
+      sdf
+      sdfsd
+#
+#  toolcmd:git-commit:modified:
+#    desc: "{{.TASK}}"
+#    cmds: [{task: }]
+
+
+#      add__arg_default: "modified"
+#      add__arg_options: "modified,untracked"
+#      add__arg_title: "which files to add"
+#      add: '{{ default .add__arg_default .add}}'
+
+    preconditions:
+      - sh: '[[ "{{.msg}}" != "" ]]'
+        msg: "error_strcode=_required-arg-is-missing_:msg"
+
+
+
+
+
+  # --- standard tasker extension tasks ----
+  _dump_vars:
+    desc: dumps tasker vars
+    silent: true
+    env: *as_global_vars
+    cmds:
+      - task -l || true
+      - |-
+        export GRSH='"'
+        yq read Taskfile.yml --tojson | jq -r '.vars | keys []' \
+        | xargs -I@ bash -c 'echo @: "$GRSH$@$GRSH"'
+  info:
+    desc: main information about this dir api
+    silent: true
+    vars:
+      main_task_list: >-
+        info
+        '"venv-resolve"'
+        '"ci-flow"'
+        '"run-test-gen-flowchart"'
+    cmds:
+      - echo '----------    META     --------------'
+      - |-
+        echo "\
+        dirname: $(basename $(pwd))
+        dirpath: $(pwd)
+        filename: Taskfile.yml\
+        "
+      - echo '----------    VARS     --------------'
+      - task: _dump_vars
+      - echo '----------    TASKS     --------------'
+      - |-
+        for stage in {{.main_task_list}}; do
+          _desc=$(yq read Taskfile.yml --tojson | jq -r .tasks."$stage".desc)
+          printf "%-30s %-40s\n" "* $(echo $(echo $stage))" " * $_desc"
+        done
+      - echo '--------------------------------------'
+      - echo 'for full tasklist please run "task -l"'
+
+
+  # --- \standard tasker extension tasks ----

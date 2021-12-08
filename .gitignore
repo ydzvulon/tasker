@@ -1,3 +1,14 @@
+tasker*.build
+tasker*.dist
+tasker*.bin
+.pytest_cache
+__blobs__
+__localbuild__
+__build_info
+__tmp__
+
+_venv/
+
 .idea
 .pytest_cache
 __blobs__
