@@ -1,0 +1,16 @@
+version: "3"
+
+tasks:
+
+  where_is_python:
+    desc: shows path for python. current for windows/cmder/git-bash
+    cmds:
+    - cmd: python -c "import sys; print(sys.executable)"
+
+
+
+
+
+
+
+

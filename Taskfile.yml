@@ -5,6 +5,7 @@ includes:
   build-exe: tasks/build.exe.tasks.yml
   docs-builder: _infra/mkdocs-basic-pack/mkdocs-build-basic.tasks.yml
   docs-publisher: tasks/mkdocs-publish.tasks.yml
+  dev: tasks/dev.tasks.yml
 
 vars: &as_global_vars
   GREETING: Hello, World!
@@ -37,7 +38,7 @@ tasks:
         export GRSH='"'
         yq eval Taskfile.yml -o=json | jq -r '.vars | keys []' \
         | xargs -I@ bash -c 'echo @: "$GRSH$@$GRSH"'
-        
+
   info:
     desc: main information about this dir api
     silent: true

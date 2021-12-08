@@ -1,6 +1,6 @@
 # Parsing of Yaml
 
-## yaml parsing 
+## yaml parsing
 
 - https://stackoverflow.com/questions/1773805/how-can-i-parse-a-yaml-file-in-python
 

@@ -28,7 +28,7 @@ vars:
         - subrepos:_layout_/reposet.conf.yml@items: |-
             will read repos config from file _layout_/subrepos.conf.yml at key items
             repos will be placed under subrepos dir of current repo
-  
+
   # reposet__conf_map__def: |-
   #   __subdirs:reposet.tasks.yml@parts.reposet.items
 
@@ -74,12 +74,12 @@ tasks:
     desc: list reposets
     silent: true
     cmds:
-      - |- 
+      - |-
         echo "\
         file_key: {{.repos_conf_file}}
-        place_key: {{.items_addr_token}} 
+        place_key: {{.items_addr_token}}
         items_key: '{{._items_exp}}'
-        items: 
+        items:
         $(echo {{.repos}} | xargs -I% echo '-' %: mkx:repo.key.name)
         "
 

@@ -28,6 +28,7 @@ tasks:
       - task: three
 
   one: df # TaskGoTask
+
   tricky-one: task one  # this is calling task via bash
 
   three:
@@ -45,6 +46,5 @@ tasks:
       - echo gariba
       - task: three
       - echo 'a b c d' | xargs echo ----
-
 
   four: ls -l | xargs echo

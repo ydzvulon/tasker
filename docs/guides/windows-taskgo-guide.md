@@ -1,6 +1,6 @@
 # Task and Windows
 
-On Windows we assume WSL with linux and bash 
+On Windows we assume WSL with linux and bash
 so it's the same as linux in docker
 
 > But it's not really on "windows"
@@ -41,19 +41,19 @@ and it provides very good shell experience.
 > Sample view of console
 
 ```bat
-C:\Users\user\_wd\_public_\tasker (yairda.parse.sceleton -> origin) 
+C:\Users\user\_wd\_public_\tasker (yairda.parse.sceleton -> origin)
 (base) λ ls
 _infra/    _out.log  LICENSE    tasker/       tasks/  tickets/
 _layout_/  docs/     README.md  Taskfile.yml  tests/  version/
 
-C:\Users\user\_wd\_public_\tasker (yairda.parse.sceleton -> origin) 
+C:\Users\user\_wd\_public_\tasker (yairda.parse.sceleton -> origin)
 (base) λ ls | xargs -n1 echo
 _infra/
 _layout_/
 _out.log
 
-C:\Users\user\_wd\_public_\tasker (yairda.parse.sceleton -> origin) 
-(base) λ 
+C:\Users\user\_wd\_public_\tasker (yairda.parse.sceleton -> origin)
+(base) λ
 ```
 
 ### Cmder's activation in any Cmd Window
@@ -61,10 +61,10 @@ C:\Users\user\_wd\_public_\tasker (yairda.parse.sceleton -> origin)
 There are ways to deeply integrate cmder into VsCode or Pycharm.
 Let's start from direct change of cmd to nice shell.
 
-Consider your username is `user` and you upacked cmder to 
+Consider your username is `user` and you upacked cmder to
 `C:\\Users\\user\\Apps\\cmder` folder.
 
-> For cmder activation run 
+> For cmder activation run
 > `cmd /k C:\\Users\\user\\Apps\\cmder\\vendor\\bin\\vscode_init.cmd`
 
 
