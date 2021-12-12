@@ -3207,8 +3207,8 @@ test = ["zope.size", "zope.testing", "zope.testrunner"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.8,<3.11"
-content-hash = "5a31dded822079f92896851c6cd2f786996152664f77f361393d306aaf33505e"
+python-versions = ">=3.8,<3.9"
+content-hash = "9b123dbeb609d990835b07f973d414ebf200f8965b0a5851243bf2dce683b974"
 
 [metadata.files]
 altgraph = [
