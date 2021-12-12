@@ -34,7 +34,7 @@ tasks:
     cmds:
       - coverage run -m pytest -s  tests && coverage html
 
-  _dump_vars:
+  show-vars:
     desc: dumps tasker vars
     silent: true
     env: *as_global_vars
@@ -54,16 +54,14 @@ tasks:
         '"ci-flow"'
         '"run-test-gen-flowchart"'
     cmds:
-      - echo '----------    META     --------------'
+      - echo '----------    INFO     --------------'
       - |-
         echo "\
         dirname: $(basename $(pwd))
         dirpath: $(pwd)
         filename: Taskfile.yml\
         "
-      - echo '----------    VARS     --------------'
-      - task: _dump_vars
-      - echo '----------    TASKS     --------------'
+      - echo '----------    API     --------------'
       - |-
         for stage in {{.main_task_list}}; do
           _desc=$(yq eval Taskfile.yml -o=json | jq -r .tasks."$stage".desc)
