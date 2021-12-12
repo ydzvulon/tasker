@@ -92,3 +92,10 @@ tasks:
     desc: build documentation site
     cmds:
       - task run-full task=docs-builder:build-site
+
+  ci-flow:
+    desc: Build Cycle
+    cmds:
+      - task test
+      - task build
+
