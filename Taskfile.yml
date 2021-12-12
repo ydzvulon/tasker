@@ -13,6 +13,7 @@ tasks:
   info:
     desc: show info
     cmds:
+      - task: list
       - echo "main commands"
 
   list:
@@ -44,7 +45,7 @@ tasks:
       rescmd: >-
         {{ if .task}}{{ .defcmd}}
         {{else}}{{.reqmds}}{{end}}
-    cmds: ['{{.rescmd}}']
+    cmds: ["{{.rescmd}}"]
 
   # --- / standard tasker extension tasks ----
 
