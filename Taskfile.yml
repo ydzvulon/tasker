@@ -1,33 +1,26 @@
 # https://taskfile.dev
 
 version: '3'
-includes:
-  build-exe: tasks/build.exe.tasks.yml
-  docs-builder: _infra/mkdocs-basic-pack/mkdocs-build-basic.tasks.yml
-  docs-publisher: tasks/mkdocs-publish.tasks.yml
-  dev: tasks/dev.tasks.yml
-
-vars: &as_global_vars
-  GREETING: Hello, World!
-  const_venv: tasker-test-env
-  conf_python_version: python=3.8
-  __NEW_LINE__: |-
-    {{if eq OS "windows"}}\\n{{else}}\n{{end}}
-  pyinst_entry_point: tasker/tasker_ctl.py
-  source_root: "$(pwd)"
 
 tasks:
   default:
     silent: true
     cmds:
       - task: info
-
+  
   # --- standard tasker extension tasks ----
+  info:
+    desc: show info
+    cmds:
+     - echo "main commands"
+
   list:
-    desc: list all tasks
+    desc: list all commands
     silent: true
     cmds:
       - task -l
+  
+  # --- standard tasker extension tasks ----
 
   test:
     desc: "Run all tests"
@@ -49,140 +42,3 @@ tasks:
     desc: "Build pyinst app"
     cmds:
      - pyinstaller build
-
-  show-vars:
-    desc: dumps tasker vars
-    silent: true
-    env: *as_global_vars
-    cmds:
-      - |-
-        export GRSH='"'
-        yq eval Taskfile.yml -o=json | jq -r '.vars | keys []' \
-        | xargs -I@ bash -c 'echo @: "$GRSH$@$GRSH"'
-
-  info:
-    desc: main information about this dir api
-    silent: true
-    vars:
-      main_task_list: >-
-        info
-        '"venv-resolve"'
-        '"ci-flow"'
-        '"run-test-gen-flowchart"'
-    cmds:
-      - echo '----------    INFO     --------------'
-      - |-
-        echo "\
-        dirname: $(basename $(pwd))
-        dirpath: $(pwd)
-        filename: Taskfile.yml\
-        "
-      - echo '----------    API     --------------'
-      - |-
-        for stage in {{.main_task_list}}; do
-          _desc=$(yq eval Taskfile.yml -o=json | jq -r .tasks."$stage".desc)
-          printf "%-30s %-40s\n" "* $(echo $(echo $stage))" " * $_desc"
-        done
-      - echo '--------------------------------------'
-      - echo 'for full tasklist please run "task -l"'
-
-
-  # --- \standard tasker extension tasks ----
-
-  venv-resolve:
-    desc: 'resolve work/test venv={{.const_venv}}'
-    vars:
-      deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
-      deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
-    cmds:
-      - |-
-        conda list -n {{.const_venv}} 2>/dev/null \
-        || conda create -n {{.const_venv}} {{.conf_python_version}} pip PyInstaller -y
-      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_run_list_txt}}
-      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_test_list_txt}}
-      #    --no-capture-output
-
-  venv-remove:
-    desc: removes working conda env. reqires flag. --force
-    status: ['true']
-    cmds:
-      - conda env remove -n {{.const_venv}}
-
-  venv-active-show:
-    desc: show command for venv activation
-    silent: true
-    cmds:
-      - echo conda activate {{.const_venv}}
-
-  venv-active-shell:
-    desc: show command for venv activation
-    silent: true
-    interactive: true
-    cmds:
-      - cmd /k conda activate yd-int-cli-cenv
-
-  with-venv:
-    desc: run command within the venv
-    cmds:
-      - |-
-        bash --login -c '
-        conda activate {{.const_venv}}
-        {{.cmd}}
-        '
-
-  verify-request:
-    desc: check syntax, staling, etc
-    cmds:
-      - echo ok
-
-  pre-build-test:
-    desc: run tests without install (with PYTHONPATH)
-    cmds:
-      - echo tests:run-all-tests no_install=true
-
-  ci-flow:
-    desc: resolve deps, build product and test validate
-    cmds:
-      - task verify-request
-      - task pre-build-test
-      - task ci-build
-      - task ci-test
-
-  ci-build:
-    desc: _
-    cmds:
-      - echo task build-pypi-pack
-      - task: stam
-      - echo task build-pyinst-pack
-
-  stam:
-    desc: _
-    cmds:
-      - echo one
-      - task: pyfull
-
-  test-them: test them
-
-  ci-test:
-    desc: _
-    cmds:
-      - echo task test
-
-  pyfull:
-    desc: _
-    cmds:
-    - |-
-      python - << EOF | tee /tmp/tt.txt
-      print("hello")
-      EOF
-
-  run-test-gen-flowchart:
-    desc: print flowchart of provided taskfile
-    cmds:
-      - |-
-        python tasker/tasker_ctl.py \
-          --upath tests/data/sample-task/Taskfile.yml \
-          resolve_static_task \
-          ci-flow \
-          jorney
-
