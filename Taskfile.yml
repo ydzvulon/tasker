@@ -1,45 +1,92 @@
 # https://taskfile.dev
 
-version: '3'
+version: "3"
 
 tasks:
   default:
     silent: true
     cmds:
       - task: info
-  
+
   # --- standard tasker extension tasks ----
-  
+
   info:
     desc: show info
     cmds:
-     - echo "main commands"
+      - echo "main commands"
 
   list:
     desc: list all commands
     silent: true
     cmds:
       - task -l
-  
-  # --- standard tasker extension tasks ----
+
+  ls-full:
+    desc: build documentation site
+    vars:
+      filter: '{{ default "*" .filter }}'
+    silent: true
+    cmds:
+      - task -t Taskfile.full.yml -l | grep '{{.filter}}' | sed ''
+
+  ls-sample-filter-docs-from-full:
+    desc: _
+    cmds:
+      - |-
+        task ls-full filter=doc | sed 's/* /task run-full task=/g' | sed 's/: /  /g'
+
+  run-full:
+    desc: run full qualified command. _example_=task run-full task=info.
+    vars:
+      defcmd: "task -t Taskfile.full.yml {{.task}}"
+      reqmds: |-
+        echo "'task' parameter is requrered try run-full task=info"
+      rescmd: >-
+        {{ if .task}}{{ .defcmd}}
+        {{else}}{{.reqmds}}{{end}}
+    cmds: ['{{.rescmd}}']
+
+  # --- / standard tasker extension tasks ----
+
+  # --- project tasker main tasks ----
+
+  shell-to-venv:
+    desc: shell to virtual env. should already exist
+    interactive: true
+    cmds:
+      - |-
+        # ### @@act=doc block=line goal='make poetry tool available'
+        source $HOME/.poetry/env
+        # ### @@act=doc block=line goal='enter poetry shell'
+        poetry shell
 
   test:
     desc: "Run all tests"
     cmds:
       - coverage run -m pytest -s  tests && coverage html
 
+  open-coverage-report:
+    desc: open coverage in browser
+    cmds:
+      - coverage html
+
   build:
     desc: "Build results"
     cmds:
       - build-pypi-pack
       - build-pyinst-app
-  
+
   build-pypi-pack:
     desc: "Build pypi package"
     cmds:
-     - poetry build
+      - poetry build
 
   build-pyinst-app:
     desc: "Build pyinst app"
     cmds:
-     - pyinstaller build
+      - pyinstaller build
+
+  build-docs-site:
+    desc: build documentation site
+    cmds:
+      - task -t Taskfile.full.yml

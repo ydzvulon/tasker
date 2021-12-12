@@ -1,6 +1,6 @@
 # https://taskfile.dev
 
-version: '3'
+version: "3"
 includes:
   build-exe: tasks/build.exe.tasks.yml
   docs-builder: _infra/mkdocs-basic-pack/mkdocs-build-basic.tasks.yml
@@ -39,16 +39,16 @@ tasks:
     cmds:
       - build-pypi-pack
       - build-pyinst-app
-  
+
   build-pypi-pack:
     desc: "Build pypi package"
     cmds:
-     - poetry build
+      - poetry build
 
   build-pyinst-app:
     desc: "Build pyinst app"
     cmds:
-     - pyinstaller build
+      - pyinstaller build
 
   show-vars:
     desc: dumps tasker vars
@@ -83,14 +83,13 @@ tasks:
           _desc=$(yq eval Taskfile.yml -o=json | jq -r .tasks."$stage".desc)
           printf "%-30s %-40s\n" "* $(echo $(echo $stage))" " * $_desc"
         done
-      - echo '--------------------------------------'
+      - echo '------------FULL-INFO-----------------'
       - echo 'for full tasklist please run "task -l"'
-
 
   # --- \standard tasker extension tasks ----
 
   venv-resolve:
-    desc: 'resolve work/test venv={{.const_venv}}'
+    desc: "resolve work/test venv={{.const_venv}}"
     vars:
       deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
       deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
@@ -104,7 +103,7 @@ tasks:
 
   venv-remove:
     desc: removes working conda env. reqires flag. --force
-    status: ['true']
+    status: ["true"]
     cmds:
       - conda env remove -n {{.const_venv}}
 
@@ -171,10 +170,10 @@ tasks:
   pyfull:
     desc: _
     cmds:
-    - |-
-      python - << EOF | tee /tmp/tt.txt
-      print("hello")
-      EOF
+      - |-
+        python - << EOF | tee /tmp/tt.txt
+        print("hello")
+        EOF
 
   run-test-gen-flowchart:
     desc: print flowchart of provided taskfile
@@ -185,4 +184,3 @@ tasks:
           resolve_static_task \
           ci-flow \
           jorney
-
