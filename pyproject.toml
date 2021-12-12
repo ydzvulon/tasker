@@ -11,7 +11,6 @@ fire = "^0.4.0"
 pydantic = "^1.8.2"
 loguru = "^0.5.3"
 pyyaml = "^6.0"
-pyinstaller = "^4.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

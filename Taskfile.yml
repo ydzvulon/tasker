@@ -74,8 +74,9 @@ tasks:
   build:
     desc: "Build results"
     cmds:
-      - build-pypi-pack
-      - build-pyinst-app
+      - task build-pypi-pack
+      - task build-pyinst-app
+      - task build-docs-site
 
   build-pypi-pack:
     desc: "Build pypi package"
