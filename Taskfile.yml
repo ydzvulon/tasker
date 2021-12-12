@@ -86,9 +86,9 @@ tasks:
   build-pyinst-app:
     desc: "Build pyinst app"
     cmds:
-      - pyinstaller build
+      - python -m PyInstaller tasker/tasker_ctl.py --onefile
 
   build-docs-site:
     desc: build documentation site
     cmds:
-      - task -t Taskfile.full.yml
+      - task run-full task=docs-builder:build-site
