@@ -34,6 +34,22 @@ tasks:
     cmds:
       - coverage run -m pytest -s  tests && coverage html
 
+  build:
+    desc: "Build results"
+    cmds:
+      - build-pypi-pack
+      - build-pyinst-app
+  
+  build-pypi-pack:
+    desc: "Build pypi package"
+    cmds:
+     - poetry build
+
+  build-pyinst-app:
+    desc: "Build pyinst app"
+    cmds:
+     - pyinstaller build
+
   show-vars:
     desc: dumps tasker vars
     silent: true
