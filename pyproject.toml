@@ -6,7 +6,7 @@ authors = ["Yair Dar <yair.dar@outlook.com>"]
 license = "Apache License 2.0"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<3.11"
 fire = "^0.4.0"
 pydantic = "^1.8.2"
 loguru = "^0.5.3"
