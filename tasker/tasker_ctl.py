@@ -74,31 +74,43 @@ class TaskfileHandler:
             world = {'unknown': {}, 'known': {}, 'jorney': []}
             world['unknown'].update({taskname: {}})
             world['jorney'].append('A_["_init_"] ' + f'--> {taskname}')
-            world['full_jorney'].append('A_["_init_"] ' + f'--> {taskname}')
 
         stage = self.taskfile_obj.tasks[taskname]
         next_stages = {}
+
+        # print('taskname is now ---', taskname) # these lines are here to understand a bit what's going on
+        # print('stage class is now ...', type(stage)) # and to add full jorney
+        # print('world is now', world) # also to trace what's happening
 
         if isinstance(stage, str):
             stage_new = {
                 'origin': copy.deepcopy(stage),
                 'body': copy.deepcopy(stage),
             }
-            world['jorney'].append( f'{taskname} -->' + ' Z_["_over"]')
+            taskname_record = (f'{taskname} -->' + ' Z_["_over"]') # an additional step against duplicates
+            if not any(taskname_record in item for item in world['jorney']): # if not
+                # print('Now adding', taskname, '-->', 'Z', 'to the jorney')
+                # print(world['jorney'])
+                world['jorney'].append( f'{taskname} -->' + ' Z_["_over"]')
         else:
             stage: TaskGoTask
             for cmd_item in stage.cmds:
+                # print("This is cmd_item now", cmd_item, 'of type', type(cmd_item)) # to understand what's up
                 if isinstance(cmd_item, TaskGoStepTask):
                     next_stage = cmd_item.task
                 elif isinstance(cmd_item, dict) and 'task' in cmd_item:
                     next_stage = cmd_item['task']
-                elif isinstance(cmd_item, TaskGoStepCmd):
-                    next_stage = cmd_item
+                elif isinstance(cmd_item, str) and 'task' in cmd_item: #experimental
+                    # print("Haha here it is now") #experimental
+                    next_stage = cmd_item[5::] #experimental
+                    # print(next_stage) #experimental
                 else:
                     # TODO: parse bash command, if its task X try to dig into this like a static step
                     next_stage = None
                 if next_stage:
                     if next_stage not in world['known']:
+                        # print('')
+                        # print('now adding ---', taskname, '-->', next_stage, '--- to jorney')
                         world['unknown'].update({next_stage: taskname})
                         world['jorney'].append(f'{taskname} --> {next_stage}')
                     next_stages.update({next_stage: 'Z_'})

@@ -36,6 +36,7 @@ tasks:
     cmds:
       - echo '{{.TASK}}'
       - task one
+      - task five
       - task: four # this is calling task via task-go executor (no bash)
 
   two:
@@ -48,3 +49,5 @@ tasks:
       - echo 'a b c d' | xargs echo ----
 
   four: ls -l | xargs echo
+
+  five: echo 'I say!'
