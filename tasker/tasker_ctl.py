@@ -78,6 +78,18 @@ class TaskfileHandler:
         stage = self.taskfile_obj.tasks[taskname]
         next_stages = {}
 
+        def add_stage_node_to_jorney(taskname, next_stage):
+            if next_stage not in world['known']:
+                world['unknown'].update({next_stage: taskname})
+                world['jorney'].append(f'{taskname} --> stage("{next_stage}")')
+            next_stages.update({next_stage: 'Z_'})
+
+        def add_cmd_node_to_jorney(taskname, next_stage):
+            if next_stage not in world['known']:
+                world['unknown'].update({next_stage: taskname})
+                world['jorney'].append(f'{taskname} --> cmd("{next_stage}")')
+            next_stages.update({next_stage: 'Z_'})
+
         if isinstance(stage, str):
             stage_new = {
                 'origin': copy.deepcopy(stage),
@@ -91,18 +103,16 @@ class TaskfileHandler:
             for cmd_item in stage.cmds:
                 if isinstance(cmd_item, TaskGoStepTask):
                     next_stage = cmd_item.task
+                    add_stage_node_to_jorney(taskname=taskname, next_stage=next_stage)
                 elif isinstance(cmd_item, dict) and 'task' in cmd_item:
                     next_stage = cmd_item['task']
-                elif isinstance(cmd_item, str) and 'task' in cmd_item: #experimental
+                    add_stage_node_to_jorney(taskname=taskname, next_stage=next_stage)
+                elif isinstance(cmd_item, str) and cmd_item[0:4] == 'task': #experimental
                     next_stage = cmd_item[5::] #experimental
+                    add_cmd_node_to_jorney(taskname=taskname, next_stage=next_stage)
                 # bash commands with tasks parsing implemented above
                 else:
                     next_stage = None
-                if next_stage:
-                    if next_stage not in world['known']:
-                        world['unknown'].update({next_stage: taskname})
-                        world['jorney'].append(f'{taskname} --> {next_stage}')
-                    next_stages.update({next_stage: 'Z_'})
 
         world['known'].update({taskname: list(next_stages.keys())})
         if taskname in world['unknown']:
