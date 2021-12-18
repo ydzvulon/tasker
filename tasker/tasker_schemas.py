@@ -38,7 +38,7 @@ class TaskGoTask(BaseModel):
     """
     desc: Optional[str] = Field(description="description")
     silent: Optional[bool] = Field(False, description="shows commands")
-    cmds: List[UnionCommandType]
+    cmds: Optional[List[UnionCommandType]]
 
 
 TaskGoTaskUnion = Union[str, TaskGoTask]
