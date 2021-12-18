@@ -23,11 +23,11 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 test = 'task test'
 
-# pyproject.toml
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra -q"
-testpaths = [
-    "tests",
-    "integration",
-]
+###   # pyproject.toml
+###   [tool.pytest.ini_options]
+###   minversion = "6.0"
+###   addopts = "-ra -q"
+###   testpaths = [
+###       "tests",
+###       "integration",
+###   ]
