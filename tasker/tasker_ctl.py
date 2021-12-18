@@ -33,7 +33,11 @@ class TaskfileHandler:
             if upath in ['-', '_']:
                 data = yaml.safe_load(sys.stdin)
             else:
-                with open(upath_to_taskfile(str(upath)), "r") as fp:
+                resolved_path = upath_to_taskfile(str(upath))
+                if not Path(resolved_path).exists():
+                    _msg = f"original path {upath} resolved to {resolved_path}. taskfile dont exist "
+                    raise ValueError(_msg)
+                with open(resolved_path, "r") as fp:
                     data = yaml.safe_load(fp)
         else:
             if not(text or upath or treedict):
