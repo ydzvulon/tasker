@@ -101,6 +101,15 @@ tasks:
       - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_test_list_txt}}
       #    --no-capture-output
 
+  pyenv-update-here:
+    desc: "resolve work/test venv={{.const_venv}}"
+    vars:
+      deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
+      deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
+    cmds:
+      - pip install -r {{.deps_pip_run_list_txt}}
+      - pip install -r {{.deps_pip_test_list_txt}}
+
   venv-remove:
     desc: removes working conda env. reqires flag. --force
     status: ["true"]

@@ -61,6 +61,11 @@ tasks:
         # ### @@act=doc block=line goal='enter poetry shell'
         poetry shell
 
+  resolve-pyenv-deps:
+    desc: Update Python requirements 
+    cmds:
+      - task run-full task=pyenv-update-here
+
   test:
     desc: "Run all tests"
     cmds:
