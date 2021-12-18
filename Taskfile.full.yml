@@ -139,7 +139,7 @@ tasks:
         '
 
   verify-request:
-    desc: check syntax, staling, etc
+    desc: check syntax, styling, etc
     cmds:
       - echo ok
 
@@ -168,8 +168,6 @@ tasks:
     cmds:
       - echo one
       - task: pyfull
-
-  test-them: test them
 
   ci-test:
     desc: _
