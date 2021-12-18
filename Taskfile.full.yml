@@ -191,3 +191,13 @@ tasks:
           resolve_static_task \
           ci-flow \
           jorney
+
+  get-poetry:
+    desc: _
+    cmds:
+      - pip install poetry
+
+  get-pyinstaller:
+    desc: _
+    cmds:
+      - pip install pyinstaller
