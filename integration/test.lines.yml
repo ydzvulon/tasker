@@ -1,0 +1,4 @@
+---
+cmd: python tasker/tasker_ctl.py --upath Taskfile.full.yml list-tasks
+
+---

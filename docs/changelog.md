@@ -1,6 +1,14 @@
 # Tasker Changelog
 
 
+## v0.0.4-d2021.12.09
+
+- use poetry for package management/build/deploy
+- use pyinstaller for app build
+- use pypi for package distribution
+- add developers documentation
+
+
 ## v0.0.3-d2021.10-...
 
 - restructure docs
