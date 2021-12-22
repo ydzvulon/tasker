@@ -1,20 +1,6 @@
 # https://taskfile.dev
 
-version: '3'
-includes:
-  build-exe: tasks/build.exe.tasks.yml
-  docs-builder: _infra/mkdocs-basic-pack/mkdocs-build-basic.tasks.yml
-  docs-publisher: tasks/mkdocs-publish.tasks.yml
-  dev: tasks/dev.tasks.yml
-
-vars: &as_global_vars
-  GREETING: Hello, World!
-  const_venv: tasker-test-env
-  conf_python_version: python=3.8
-  __NEW_LINE__: |-
-    {{if eq OS "windows"}}\\n{{else}}\n{{end}}
-  pyinst_entry_point: tasker/tasker_ctl.py
-  source_root: "$(pwd)"
+version: "3"
 
 tasks:
   default:
@@ -23,151 +9,107 @@ tasks:
       - task: info
 
   # --- standard tasker extension tasks ----
+
+  info:
+    desc: show info
+    cmds:
+      - task: list
+      - echo "main commands"
+
   list:
-    desc: list all tasks
+    desc: list all commands
     silent: true
     cmds:
       - task -l
+
+  ls-full:
+    desc: build documentation site
+    vars:
+      filter: '{{ default "*" .filter }}'
+    silent: true
+    cmds:
+      - task -t Taskfile.full.yml -l | grep '{{.filter}}' | sed ''
+
+  ls-sample-filter-docs-from-full:
+    desc: _
+    cmds:
+      - |-
+        task ls-full filter=doc | sed 's/* /task run-full task=/g' | sed 's/: /  /g'
+
+  run-full:
+    desc: run full qualified command. _example_=task run-full task=info.
+    vars:
+      defcmd: "task -t Taskfile.full.yml {{.task}}"
+      reqmds: |-
+        echo "'task' parameter is requrered try run-full task=info"
+      rescmd: >-
+        {{ if .task}}{{ .defcmd}}
+        {{else}}{{.reqmds}}{{end}}
+    cmds: ["{{.rescmd}}"]
+
+  # --- / standard tasker extension tasks ----
+
+  # --- project tasker main tasks ----
+
+  shell-to-venv:
+    desc: shell to virtual env. should already exist
+    interactive: true
+    cmds:
+      - |-
+        # ### @@act=doc block=line goal='make poetry tool available'
+        source $HOME/.poetry/env
+        # ### @@act=doc block=line goal='enter poetry shell'
+        poetry shell
+
+  resolve-pyenv-deps:
+    desc: Update Python requirements
+    cmds:
+      - task run-full task=pyenv-update-here
 
   test:
     desc: "Run all tests"
     cmds:
       - coverage run -m pytest -s  tests && coverage html
 
-  _dump_vars:
-    desc: dumps tasker vars
-    silent: true
-    env: *as_global_vars
+  open-coverage-report:
+    desc: open coverage in browser
     cmds:
-      - |-
-        export GRSH='"'
-        yq eval Taskfile.yml -o=json | jq -r '.vars | keys []' \
-        | xargs -I@ bash -c 'echo @: "$GRSH$@$GRSH"'
+      - coverage html
 
-  info:
-    desc: main information about this dir api
-    silent: true
-    vars:
-      main_task_list: >-
-        info
-        '"venv-resolve"'
-        '"ci-flow"'
-        '"run-test-gen-flowchart"'
+  build:
+    desc: "Build results"
     cmds:
-      - echo '----------    META     --------------'
-      - |-
-        echo "\
-        dirname: $(basename $(pwd))
-        dirpath: $(pwd)
-        filename: Taskfile.yml\
-        "
-      - echo '----------    VARS     --------------'
-      - task: _dump_vars
-      - echo '----------    TASKS     --------------'
-      - |-
-        for stage in {{.main_task_list}}; do
-          _desc=$(yq eval Taskfile.yml -o=json | jq -r .tasks."$stage".desc)
-          printf "%-30s %-40s\n" "* $(echo $(echo $stage))" " * $_desc"
-        done
-      - echo '--------------------------------------'
-      - echo 'for full tasklist please run "task -l"'
+      - task build-pypi-pack
+      - task build-pyinst-app
+      - task build-docs-site
 
-
-  # --- \standard tasker extension tasks ----
-
-  venv-resolve:
-    desc: 'resolve work/test venv={{.const_venv}}'
-    vars:
-      deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
-      deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
+  build-pypi-pack:
+    desc: "Build pypi package"
     cmds:
-      - |-
-        conda list -n {{.const_venv}} 2>/dev/null \
-        || conda create -n {{.const_venv}} {{.conf_python_version}} pip PyInstaller -y
-      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_run_list_txt}}
-      - conda run  -n {{.const_venv}} pip install -r {{.deps_pip_test_list_txt}}
-      #    --no-capture-output
+      - poetry build
 
-  venv-remove:
-    desc: removes working conda env. reqires flag. --force
-    status: ['true']
+  build-pyinst-app:
+    desc: "Build pyinst app"
     cmds:
-      - conda env remove -n {{.const_venv}}
+      - python -m PyInstaller tasker/tasker_ctl.py --onefile
 
-  venv-active-show:
-    desc: show command for venv activation
-    silent: true
+  build-docs-site:
+    desc: build documentation site
     cmds:
-      - echo conda activate {{.const_venv}}
-
-  venv-active-shell:
-    desc: show command for venv activation
-    silent: true
-    interactive: true
-    cmds:
-      - cmd /k conda activate yd-int-cli-cenv
-
-  with-venv:
-    desc: run command within the venv
-    cmds:
-      - |-
-        bash --login -c '
-        conda activate {{.const_venv}}
-        {{.cmd}}
-        '
-
-  verify-request:
-    desc: check syntax, staling, etc
-    cmds:
-      - echo ok
-
-  pre-build-test:
-    desc: run tests without install (with PYTHONPATH)
-    cmds:
-      - echo tests:run-all-tests no_install=true
+      - task run-full task=docs-builder:build-site
 
   ci-flow:
-    desc: resolve deps, build product and test validate
+    desc: Build Cycle
     cmds:
-      - task verify-request
-      - task pre-build-test
-      - task ci-build
-      - task ci-test
+      - task test
+      - task build
 
-  ci-build:
-    desc: _
-    cmds:
-      - echo task build-pypi-pack
-      - task: stam
-      - echo task build-pyinst-pack
-
-  stam:
-    desc: _
-    cmds:
-      - echo one
-      - task: pyfull
-
-  test-them: test them
-
-  ci-test:
-    desc: _
-    cmds:
-      - echo task test
-
-  pyfull:
-    desc: _
-    cmds:
+  run-sample:
+   desc: _
+   cmds:
     - |-
-      python - << EOF | tee /tmp/tt.txt
-      print("hello")
-      EOF
-
-  run-test-gen-flowchart:
-    desc: print flowchart of provided taskfile
-    cmds:
-      - |-
-        python tasker/tasker_ctl.py \
-          --upath tests/data/sample-task/Taskfile.yml \
-          resolve_static_task \
-          ci-flow \
-          jorney
+      python tasker/tasker_ctl.py \
+        --upath tests/data/sample-task/Taskfile.yml \
+        resolve_static_task \
+        ci-flow \
+        jorney

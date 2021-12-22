@@ -53,3 +53,6 @@ def test__to_dict_if_exists_two_values():
     expected = [("arg1", 1), ("arg2", "2")]
     assert expected == actual1
     assert expected == actual2
+
+
+# def test_check_invalid_input():
