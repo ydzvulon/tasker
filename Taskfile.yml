@@ -170,15 +170,4 @@ tasks:
           --upath tests/data/sample-task/Taskfile.yml \
           resolve_static_task \
           ci-flow \
-          jorney
-
-#  run-test-gen-flowchart-on-itself:
-#    desc: print flowchart of provided taskfile
-#    cmds:
-#      - |-
-#        python tasker/tasker_ctl.py \
-#          --upath Taskfile.yml \
-#          resolve_static_task \
-#          ci-flow
-#          jorney
-
+          full_jorney

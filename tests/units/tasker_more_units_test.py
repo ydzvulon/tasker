@@ -17,6 +17,7 @@ tasks:
       - task report
       - task: finish
         vars: {status: ok}
+  report: echo "See, I report now"
   finish: echo finish
 """
 
