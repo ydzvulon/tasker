@@ -62,7 +62,7 @@ tasks:
         poetry shell
 
   resolve-pyenv-deps:
-    desc: Update Python requirements 
+    desc: Update Python requirements
     cmds:
       - task run-full task=pyenv-update-here
 
@@ -104,3 +104,12 @@ tasks:
       - task test
       - task build
 
+  run-sample:
+   desc: _
+   cmds:
+    - |-
+      python tasker/tasker_ctl.py \
+        --upath tests/data/sample-task/Taskfile.yml \
+        resolve_static_task \
+        ci-flow \
+        jorney
