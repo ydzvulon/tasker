@@ -103,6 +103,8 @@ class TaskfileHandler:
             taskname_record = (f'{taskname} -->' + ' Z_["_over"]') # an additional step against duplicates
             if not any(taskname_record in item for item in world['full_jorney']): # if not present, there will be dupes
                 world['full_jorney'].append(taskname_record)
+            if not any(taskname_record in item for item in world['jorney']): # if not present, there will be dupes
+                world['jorney'].append(taskname_record)
         else:
             stage: TaskGoTask
             for cmd_item in stage.cmds:
