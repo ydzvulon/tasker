@@ -170,4 +170,4 @@ tasks:
           --upath tests/data/sample-task/Taskfile.yml \
           resolve_static_task \
           ci-flow \
-          full_jorney
+          jorney
