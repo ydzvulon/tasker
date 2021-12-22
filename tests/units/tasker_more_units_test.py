@@ -17,7 +17,6 @@ tasks:
       - task report
       - task: finish
         vars: {status: ok}
-  report: echo "See, I report now"
   finish: echo finish
 """
 
@@ -51,9 +50,8 @@ def test_suite__taskerctl_full_jorney():
 
     expected_jorney = [
         'A_["_init_"] --> body',
-        'body --> cmd("report")', # should it be "task report" instead?
+        'body --> cmd("task report")', # should it be "task report" instead?
         'body --> stage("finish")',
-        'report --> Z_["_over"]', # this task should present, or else the test crashes, and the old test as well
         'finish --> Z_["_over"]' # though the report task breaks an old test
     ]
     expected_jorney_other_option = [

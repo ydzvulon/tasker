@@ -89,10 +89,18 @@ class TaskfileHandler:
                 world['full_jorney'].append(f'{taskname} --> stage("{next_stage}")')
             next_stages.update({next_stage: 'Z_'})
 
-        def add_cmd_node_to_full_jorney(taskname, next_stage):
-            if next_stage not in world['known']:
-                world['unknown'].update({next_stage: taskname})
-                world['full_jorney'].append(f'{taskname} --> cmd("{next_stage}")')
+        def add_cmd_node_to_full_jorney(taskname, next_stage): # to make tasker parse "task X", make this function look like the one above
+            world_known = world['known']
+            world_known_tasks = world_known.keys()
+            if taskname in world_known_tasks:
+                task_content = world_known[taskname]
+                if next_stage not in task_content:
+                    # world['unknown'].update({next_stage: taskname})
+                    world['full_jorney'].append(f'{taskname} --> cmd("task {next_stage}")')
+                next_stages.update({next_stage: 'Z_'})
+            else:
+                # world['unknown'].update({next_stage: taskname})
+                world['full_jorney'].append(f'{taskname} --> cmd("task {next_stage}")')
             next_stages.update({next_stage: 'Z_'})
 
         if isinstance(stage, str):
@@ -116,16 +124,17 @@ class TaskfileHandler:
                     next_stage = cmd_item['task']
                     add_stage_node_to_full_jorney(taskname=taskname, next_stage=next_stage)
                 elif isinstance(cmd_item, str) and cmd_item[0:4] == 'task': #experimental, knocks out old test when enabled. why?
-                    next_stage = cmd_item[5::] #experimental
-                    add_cmd_node_to_full_jorney(taskname=taskname, next_stage=next_stage)
+                    next_stage_cmd = cmd_item[5::] #experimental
+                    add_cmd_node_to_full_jorney(taskname=taskname, next_stage=next_stage_cmd)
                 # bash commands with tasks parsing implemented above
                 else:
                     next_stage = None
-                if next_stage: # legacy for non-full jorney
-                    if next_stage not in world['known']:
-                        world['unknown'].update({next_stage: taskname})
-                        world['jorney'].append(f'{taskname} --> {next_stage}')
-                    next_stages.update({next_stage: 'Z_'})
+
+            if next_stage: # for non-full jorney. please mind tabs while editing this!
+                if next_stage not in world['known']:
+                    world['unknown'].update({next_stage: taskname})
+                    world['jorney'].append(f'{taskname} --> {next_stage}')
+                next_stages.update({next_stage: 'Z_'})
 
         world['known'].update({taskname: list(next_stages.keys())})
         if taskname in world['unknown']:
