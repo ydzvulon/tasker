@@ -1,5 +1,9 @@
+image:
+  file: .gitpod.Dockerfile
+
 tasks:
   - init: |
       echo 'TODO: build project'
+      task test--dry
     command: |
-      echo 'TODO: start app'
+      task test
