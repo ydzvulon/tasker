@@ -5,6 +5,8 @@ that works with taskfile configurations.
 
 > [Develop On Gitpod](https://www.gitpod.io/#https://github.com/ydzvulon/tasker)
 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
+
 Sample Configurations can be found in
 
 - [in this repo at ./tests/data](./tests/data)
