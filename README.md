@@ -3,6 +3,8 @@
 **Tasker**  is a ui and dependency analytics tool,
 that works with taskfile configurations.
 
+> [Develop On Gitpod](https://www.gitpod.io/#https://github.com/ydzvulon/tasker)
+
 Sample Configurations can be found in
 
 - [in this repo at ./tests/data](./tests/data)
