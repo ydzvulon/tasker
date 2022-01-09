@@ -3,7 +3,7 @@
 **Tasker**  is a ui and dependency analytics tool,
 that works with taskfile configurations.
 
-> [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/) https://www.gitpod.io/#https://github.com/ydzvulon/tasker
+> Develop on [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/) `or via` https://www.gitpod.io/#https://github.com/ydzvulon/tasker
 
 
 
