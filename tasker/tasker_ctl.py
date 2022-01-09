@@ -123,7 +123,7 @@ class TaskfileHandler:
                 elif isinstance(cmd_item, dict) and 'task' in cmd_item:
                     next_stage = cmd_item['task']
                     add_stage_node_to_full_jorney(taskname=taskname, next_stage=next_stage)
-                elif isinstance(cmd_item, str) and cmd_item[0:4] == 'task': #experimental, knocks out old test when enabled. why?
+                elif isinstance(cmd_item, str) and cmd_item[0:4] == 'task': #experimental
                     next_stage_cmd = cmd_item[5::] #experimental
                     add_cmd_node_to_full_jorney(taskname=taskname, next_stage=next_stage_cmd)
                 # bash commands with tasks parsing implemented above
