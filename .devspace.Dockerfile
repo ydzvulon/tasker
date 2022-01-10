@@ -19,16 +19,22 @@ RUN task -t \
     /_infra/get-started-mini-lib/task.ensure-base-dev-space.sh.yml \
     install-all
 
+# COPY _infra/get-started-mini-lib/install_docker.sh.yml /_infra/get-started-mini-lib/install_docker.sh.yml
+# RUN task -t \
+#     /_infra/get-started-mini-lib/install_docker.sh.yml \
+#     install-all
+    
 # # apply package managers 
 # COPY _infra/get-started-mini-lib/install_conda_mini.tasks.yml /_infra/get-started-mini-lib/install_conda_mini.tasks.yml
 # RUN task -t \
 #     /_infra/get-started-mini-lib/install_conda_mini.tasks.yml \
 #     install-all
 
+RUN which pip
 COPY version/deps /version/deps
 RUN  echo "Installing python deps" \
       && pip install -r /version/deps/deps.pip.run.broad.list.txt \
       && pip install -r /version/deps/deps.pip.test.broad.list.txt
 
-ENV PATH PATH:$HOME/.local/bin
+# ENV PATH PATH:$HOME/.local/bin
 RUN pip install pdm
