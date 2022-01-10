@@ -1,6 +1,6 @@
 [project]
 name = "pytasker"
-version = "0.1.5"
+version = "0.1.6"
 description = "High Level Task Executor"
 authors = [
     {name = "Yair Dar", email = "yair.dar@outlook.com"},
