@@ -108,7 +108,9 @@ tasks:
 #
 # ```yaml
     desc: build markdown sources to html static web site
-    dir: '{{ default .source_root .dir }}'
+    vars:
+      _dir: '{{ default .source_root .dir }}'
+    dir:  '{{._dir}}'
     cmds:
     - cmd: mkdocs build
 # ```

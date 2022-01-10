@@ -201,6 +201,8 @@ def cli_and_py_billing_sample():
 def main():
     print(os.getcwd())
     # exit(0)
+    # Make Python Fire not use a pager when it prints a help text
+    fire.core.Display = lambda lines, out: print(*lines, file=out)
     fire.Fire(TaskfileHandler)
     ### Coment out for testing
     # cli_and_py_billing_sample()

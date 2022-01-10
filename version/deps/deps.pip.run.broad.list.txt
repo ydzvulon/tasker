@@ -3,3 +3,4 @@ loguru
 pyyaml
 pydantic
 fastapi
+editables

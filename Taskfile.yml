@@ -76,33 +76,23 @@ tasks:
     cmds:
       - coverage html
 
-  build:
-    desc: "Build results"
+  ci-flow:
+    desc: Build Cycle
     cmds:
-      - task build-pypi-pack
-      - task build-pyinst-app
-      - task build-docs-site
-
+      - task test
+      - task: build-pypi-pack
+      # - task: build-docs-site
+      - task: build-shiv-exe
+    
   build-pypi-pack:
     desc: "Build pypi package"
     cmds:
-      - echo "TODO. pdm build"
-
-  build-pyinst-app:
-    desc: "Build pyinst app"
-    cmds:
-      - python -m PyInstaller tasker/tasker_ctl.py --onefile
+      - pdm build
 
   build-docs-site:
     desc: build documentation site
     cmds:
       - task run-full task=docs-builder:build-site
-
-  ci-flow:
-    desc: Build Cycle
-    cmds:
-      - task test
-      - task build
 
   run-sample:
    desc: _
@@ -132,3 +122,10 @@ tasks:
     cmds:
       - pip install -r {{.deps_pip_run_list_txt}}
       - pip install -r {{.deps_pip_test_list_txt}}
+      
+  build-shiv-exe:
+    desc: build with shiv
+    cmds:
+    - mkdir -p Release
+    - shiv -c tasker_ctl -o Release/tasker . fire loguru pyyaml pydantic
+    
