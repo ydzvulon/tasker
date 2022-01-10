@@ -1,9 +1,15 @@
 image:
   file: .gitpod.Dockerfile
 
+vscode:
+  extensions:
+	  - ms-python.python
+	  - littlefoxteam.vscode-python-test-adapter
+	  - hbenl.vscode-test-explorer
+	  - vscjava.vscode-java-test
+	  - syntaf.vscode-python-test-adapter
 tasks:
   - init: |
-      echo 'TODO: build project'
-      task test --dry
+      pip install -e .
     command: |
       task test
