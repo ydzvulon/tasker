@@ -1,5 +1,5 @@
 import shlex
-from tasker_schemas import UnionCommandType, TaskGoStepCmd, TaskGoStepTask
+from tasker.tasker_schemas import UnionCommandType, TaskGoStepCmd, TaskGoStepTask
 
 # class BashGoCmd:
 

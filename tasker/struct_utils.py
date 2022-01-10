@@ -5,7 +5,7 @@ from typing import List, Dict, Union, Iterable, Tuple, Any
 import pydantic
 from pydantic import BaseModel
 
-from tasker_schemas import MatchAliasRule
+from tasker.tasker_schemas import MatchAliasRule
 
 
 class classer:

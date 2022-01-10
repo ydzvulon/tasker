@@ -1,6 +1,6 @@
 from loguru import logger
 from pytest_steps import test_steps
-import tasker_ctl
+import tasker.tasker_ctl
 
 # '~/_wd/repos/jenlib'
 
@@ -38,7 +38,7 @@ tasks:
 
 
 def test_suite__taskerctl_joreny_base():
-    hand = tasker_ctl.TaskfileHandler(text=TASKFILE_TEXT_CORRECT)
+    hand = tasker.tasker_ctl.TaskfileHandler(text=TASKFILE_TEXT_CORRECT)
     changes = hand.resolve_static_task("body")
     expected_jorney = ['A_["_init_"] --> body', 'body --> finish', 'finish --> Z_["_over"]'] # this test is broken because the report task is added
     assert changes['jorney'] == expected_jorney
@@ -46,7 +46,7 @@ def test_suite__taskerctl_joreny_base():
 
 def test_suite__taskerctl_full_jorney():
     # arrange
-    hand = tasker_ctl.TaskfileHandler(text=TASKFILE_TEXT_CORRECT)
+    hand = tasker.tasker_ctl.TaskfileHandler(text=TASKFILE_TEXT_CORRECT)
 
     expected_jorney = [
         'A_["_init_"] --> body',

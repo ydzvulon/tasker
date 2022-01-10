@@ -1,6 +1,7 @@
 FROM gitpod/workspace-full
 
 # Install Lib Pack
+SHELL ["/bin/bash", "-c"]
 
 
 # Apply os tools settings
@@ -25,3 +26,5 @@ COPY version/deps /version/deps
 RUN  echo "Installing python deps" \
       && pip install -r /version/deps/deps.pip.run.broad.list.txt \
       && pip install -r /version/deps/deps.pip.test.broad.list.txt
+
+RUN curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -

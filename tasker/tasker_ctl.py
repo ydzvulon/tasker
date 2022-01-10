@@ -7,10 +7,10 @@ import sys
 from pathlib import Path
 from typing import Union, Sequence, Tuple
 
-from tasker_schemas import TaskGoTaskfileUnions, TaskGoTask, TaskGoStepTask
-from struct_utils import safe_get
-import task_keys
-from world_map import WorldPartReflection
+import tasker.task_keys
+from tasker.tasker_schemas import TaskGoTaskfileUnions, TaskGoTask, TaskGoStepTask
+from tasker.struct_utils import safe_get
+from tasker.world_map import WorldPartReflection
 
 
 def to_dict_if_exists(**kwargs):
@@ -198,13 +198,15 @@ def cli_and_py_billing_sample():
     print(d['jorney'])
     print(d['full_jorney']) # experimental
 
-
-if __name__ == '__main__':
+def main():
     print(os.getcwd())
     # exit(0)
     fire.Fire(TaskfileHandler)
     ### Coment out for testing
     # cli_and_py_billing_sample()
+
+if __name__ == '__main__':
+    main()
 
 
 

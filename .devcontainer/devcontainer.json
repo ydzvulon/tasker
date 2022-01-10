@@ -7,13 +7,19 @@
 	"context": "..",
 
 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-	"dockerFile": ".devspace.Dockerfile",
+	"dockerFile": "../.devspace.Dockerfile",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
 	
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": ["ms-python.python", "littlefoxteam.vscode-python-test-adapter", "hbenl.vscode-test-explorer", "vscjava.vscode-java-test"],
+	"extensions": [
+		"ms-python.python", 
+		"littlefoxteam.vscode-python-test-adapter", 
+		"hbenl.vscode-test-explorer", 
+		"vscjava.vscode-java-test",
+		"syntaf.vscode-python-test-adapter"
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
