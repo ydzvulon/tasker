@@ -14,8 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: recursive
-          token: "${{ secrets.REPO_ACCESS_GITHUB_TOKEN }}"
           fetch-depth: 0
           
       - name: Install Task
