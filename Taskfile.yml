@@ -118,7 +118,12 @@ tasks:
     desc: build gitpod docker
     cmds:
       - docker build -f .gitpod.Dockerfile -t gitpod-dockerfile-test .
-
+      
+  build-dev-docker-dimg:
+    desc: build gitpod docker
+    cmds:
+      - docker build -f .devspace.Dockerfile -t devspace-dockerfile-test .
+      
   pyenv-update-here:
     desc: "resolve work/test"
     vars:

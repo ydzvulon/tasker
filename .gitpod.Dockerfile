@@ -1,6 +1,7 @@
 FROM gitpod/workspace-full
 
 # Install Lib Pack
+SHELL ["/bin/bash", "-c"]
 
 
 # Apply os tools settings

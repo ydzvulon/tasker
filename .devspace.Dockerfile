@@ -1,11 +1,15 @@
-FROM python:3.9
+FROM python:3.9-buster
+
+RUN apt update -y && apt install coreutils sudo -y 
+SHELL ["/bin/bash", "-c"]
 
 # Install Lib Pack
 
 
 # Apply os tools settings
 COPY _infra/get-started-mini-lib/task.ensure-base-os-tools.sh /_infra/get-started-mini-lib/task.ensure-base-os-tools.sh
-RUN bash \
+
+RUN /bin/bash \
     /_infra/get-started-mini-lib/task.ensure-base-os-tools.sh \
     install-all
 
