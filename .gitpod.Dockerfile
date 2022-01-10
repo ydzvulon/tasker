@@ -24,7 +24,6 @@ RUN task -t \
 
 COPY version/deps /version/deps
 RUN  echo "Installing python deps" \
+      && pip install pdm \
       && pip install -r /version/deps/deps.pip.run.broad.list.txt \
       && pip install -r /version/deps/deps.pip.test.broad.list.txt
-
-RUN url -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | sudo python3 -
