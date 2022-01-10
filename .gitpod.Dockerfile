@@ -3,6 +3,7 @@ FROM gitpod/workspace-full
 # Install Lib Pack
 SHELL ["/bin/bash", "-c"]
 
+RUN apt update -y && apt install coreutils sudo python3-pip -y 
 
 # Apply os tools settings
 COPY _infra/get-started-mini-lib/task.ensure-base-os-tools.sh /_infra/get-started-mini-lib/task.ensure-base-os-tools.sh
