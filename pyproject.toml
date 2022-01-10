@@ -1,27 +1,40 @@
-[tool.poetry]
+[project]
 name = "tasker"
 version = "0.1.5"
 description = "High Level Task Executor"
-authors = ["Yair Dar <yair.dar@outlook.com>"]
+authors = [
+    {name = "Yair Dar", email = "yair.dar@outlook.com"},
+]
 license = "Apache License 2.0"
 
-[tool.poetry.dependencies]
-python = ">=3.8,<3.9"
-fire = "^0.4.0"
-pydantic = "^1.8.2"
-loguru = "^0.5.3"
-pyyaml = "^6.0"
+dependencies = [
+    "fire>=0.4.0",
+    "pydantic>=1.9.0",
+    "loguru>=0.5.3",
+    "pyyaml>=0.6.0",
+    # "fastapi>=0.70.1",
+    # "jupyter>=1.0.0",
+    # "pandas>=1.3.5",
+]
 
-[tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
-mypypi = "^2.0.3"
+[project.scripts]
+tasker_ctl = "nostro_composer.tasker_ctl:main_cli"
+scenarios_creator = "nostro_scenarios_creator.scenarios_creator:main"
+
+[tool]
+[tool.pdm]
+
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-pep517"]
+build-backend = "pdm.pep517.api"
 
-[tool.poetry.scripts]
-test = 'task test'
+###  [build-system]
+### requires = ["poetry-core>=1.0.0"]
+### build-backend = "poetry.core.masonry.api"
+
+### [tool.poetry.scripts]
+### test = 'task test'
 
 ###   # pyproject.toml
 ###   [tool.pytest.ini_options]
