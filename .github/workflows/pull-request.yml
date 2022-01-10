@@ -17,6 +17,8 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    steps:
+    
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
@@ -38,5 +40,8 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'version/deps/*.txt'
       - run: 'task pyenv-update-here'
+        name: 'resolve-deps'
+      
       
       - run: 'task ci-flow'
+        name: 'ci-flow'
