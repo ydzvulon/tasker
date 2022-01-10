@@ -137,6 +137,8 @@ tasks:
       deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
       deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
     cmds:
+      - python -m pip install --upgrade pip
+      - pip install pdm shiv
       - pip install -r {{.deps_pip_run_list_txt}}
       - pip install -r {{.deps_pip_test_list_txt}}
       
