@@ -9,10 +9,10 @@
 ! echo "@@act=over stage=resolve-pip-deps step=... install-test-requirerments result.deps_list=$(echo $(cat version/deps/deps.pip.run.broad.list.txt)) ...!"
 
 # %%
-! curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py  | tee /tmp/get-poetry.py
-! which poetry || python /tmp/get-poetry.py
+! curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
+! which pdm
 
 # %%
-! echo source $HOME/.poetry/env
+! echo export PATH=PATH:$HOME/.local/bin
 
 # %%

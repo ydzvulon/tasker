@@ -29,14 +29,6 @@ scenarios_creator = "nostro_scenarios_creator.scenarios_creator:main"
 requires = ["pdm-pep517"]
 build-backend = "pdm.pep517.api"
 
-###  [build-system]
-### requires = ["poetry-core>=1.0.0"]
-### build-backend = "poetry.core.masonry.api"
-
-### [tool.poetry.scripts]
-### test = 'task test'
-
-###   # pyproject.toml
 ###   [tool.pytest.ini_options]
 ###   minversion = "6.0"
 ###   addopts = "-ra -q"

@@ -1,6 +1,13 @@
 # Tasker Changelog
 
-
+## v0.1.5-d2022.01.10
+- use pdm for python packages
+- remove poetry from repo
+- gitpod inegrration
+- vscode devcontainer integration
+- tests with converage
+- full_jorney with nodes
+    
 ## v0.0.4-d2021.12.09
 
 - use poetry for package management/build/deploy

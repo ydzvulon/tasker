@@ -43,7 +43,7 @@ tasks:
   build-pypi-pack:
     desc: "Build pypi package"
     cmds:
-      - poetry build
+      - echo TODO. pdm-build build
 
   build-pyinst-app:
     desc: "Build pyinst app"
@@ -192,10 +192,10 @@ tasks:
           ci-flow \
           jorney
 
-  get-poetry:
+  get-pdm:
     desc: _
     cmds:
-      - pip install poetry
+      - curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
 
   get-pyinstaller:
     desc: _

@@ -56,10 +56,10 @@ tasks:
     interactive: true
     cmds:
       - |-
-        # ### @@act=doc block=line goal='make poetry tool available'
-        source $HOME/.poetry/env
-        # ### @@act=doc block=line goal='enter poetry shell'
-        poetry shell
+        # ### @@act=doc block=line goal='make pdm tool available'
+        export PATH="PATH:$HOME/.local/bin"
+        # ### @@act=doc block=line goal='enter pdm shell'
+        pdm shell
 
   resolve-pyenv-deps:
     desc: Update Python requirements
@@ -86,7 +86,7 @@ tasks:
   build-pypi-pack:
     desc: "Build pypi package"
     cmds:
-      - poetry build
+      - echo "TODO. pdm build"
 
   build-pyinst-app:
     desc: "Build pyinst app"
