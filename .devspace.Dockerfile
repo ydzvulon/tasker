@@ -37,4 +37,4 @@ RUN  echo "Installing python deps" \
       && pip install -r /version/deps/deps.pip.test.broad.list.txt
 
 # ENV PATH PATH:$HOME/.local/bin
-RUN pip install pdm
+RUN pip install pdm && /usr/local/bin/python3 -m pip install --upgrade pip
