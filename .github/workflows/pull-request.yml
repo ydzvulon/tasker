@@ -38,7 +38,7 @@ jobs:
         with:
           python-version: '3.9'
           cache: 'pip'
-          cache-dependency-path: 'version/deps/*.txt'
+          # cache-dependency-path: 'version/deps/*.txt'
       - run: 'task pyenv-update-here'
         name: 'resolve-deps'
       
