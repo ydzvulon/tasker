@@ -1,7 +1,7 @@
 from typing import Dict, List, Any
 from pydantic import BaseModel, Field
 
-from tasker.tasker_schemas import TaskGoTaskfileUnions, TaskGoTaskUnion, TaskGoStepCmdShadow
+from pytasker.tasker_schemas import TaskGoTaskfileUnions, TaskGoTaskUnion, TaskGoStepCmdShadow
 
 
 class ShadowFile(BaseModel):

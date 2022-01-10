@@ -121,7 +121,7 @@ class TaskInvokeFlags(BaseModel):
 
     @classmethod
     def from_cmdarr(cls, cmdarr: List[str]):
-        from tasker.struct_utils import extradite_tokens_segments
+        from pytasker.struct_utils import extradite_tokens_segments
         extract_request = {
             "output": {"nplaces": 2, "aliases": ["--output", "-o"]},
             "dry": {"nplaces": 1, "aliases": ["--dry"]},

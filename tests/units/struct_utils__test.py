@@ -1,4 +1,4 @@
-from tasker.struct_utils import safe_get
+from pytasker.struct_utils import safe_get
 
 
 def test__safe_get():

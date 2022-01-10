@@ -1,5 +1,5 @@
-from tasker.tasker_ctl import TaskfileHandler
-from tasker.tasker_schemas import TaskGoStepTask
+from pytasker.tasker_ctl import TaskfileHandler
+from pytasker.tasker_schemas import TaskGoStepTask
 
 
 def _aux__assert_step_taskname(step: TaskGoStepTask):
@@ -30,7 +30,7 @@ def test__resolve_static_task():
 
 def test__to_dict_if_exists_empty():
     # arrange
-    from tasker.tasker_ctl import to_dict_if_exists
+    from pytasker.tasker_ctl import to_dict_if_exists
     # act
     inp = {}
     actual = [(k, v) for k, v in to_dict_if_exists(**inp)]
@@ -41,7 +41,7 @@ def test__to_dict_if_exists_empty():
 
 def test__to_dict_if_exists_two_values():
     # arrange
-    from tasker.tasker_ctl import to_dict_if_exists
+    from pytasker.tasker_ctl import to_dict_if_exists
     # act
     inp1 = dict(arg1=1, arg2="2",
                 argNone=None)

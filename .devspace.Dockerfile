@@ -38,3 +38,5 @@ RUN  echo "Installing python deps" \
 
 # ENV PATH PATH:$HOME/.local/bin
 RUN pip install pdm && /usr/local/bin/python3 -m pip install --upgrade pip
+
+SHELL ["/bin/zsh", "-c"]

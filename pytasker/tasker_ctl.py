@@ -7,10 +7,10 @@ import sys
 from pathlib import Path
 from typing import Union, Sequence, Tuple
 
-import tasker.task_keys
-from tasker.tasker_schemas import TaskGoTaskfileUnions, TaskGoTask, TaskGoStepTask
-from tasker.struct_utils import safe_get
-from tasker.world_map import WorldPartReflection
+import pytasker.task_keys
+from pytasker.tasker_schemas import TaskGoTaskfileUnions, TaskGoTask, TaskGoStepTask
+from pytasker.struct_utils import safe_get
+from pytasker.world_map import WorldPartReflection
 
 
 def to_dict_if_exists(**kwargs):

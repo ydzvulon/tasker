@@ -1,9 +1,9 @@
 import shlex
-from tasker import task_keys
+from pytasker import task_keys
 from pytest_steps import test_steps
 
-from tasker.struct_utils import extradite_tokens_segments
-from tasker.tasker_schemas import MatchAliasRule
+from pytasker.struct_utils import extradite_tokens_segments
+from pytasker.tasker_schemas import MatchAliasRule
 
 
 @test_steps('extradite_tokens1', 'extradite_tokens2')

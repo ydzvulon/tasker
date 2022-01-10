@@ -1,5 +1,5 @@
 [project]
-name = "tasker"
+name = "pytasker"
 version = "0.1.5"
 description = "High Level Task Executor"
 authors = [
@@ -18,8 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
-tasker_ctl = "nostro_composer.tasker_ctl:main_cli"
-scenarios_creator = "nostro_scenarios_creator.scenarios_creator:main"
+tasker_ctl = "pytasker.tasker_ctl:main"
 
 [tool]
 [tool.pdm]
