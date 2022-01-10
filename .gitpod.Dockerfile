@@ -22,6 +22,9 @@ RUN task -t \
     /_infra/get-started-mini-lib/install_conda_mini.tasks.yml \
     install-all
 
+RUN pip install pdm
+ENV PATH PATH:$HOME/.local/bin
+
 COPY version/deps /version/deps
 RUN  echo "Installing python deps" \
       && pip install pdm \
