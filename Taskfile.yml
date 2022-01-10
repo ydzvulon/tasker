@@ -80,14 +80,31 @@ tasks:
     desc: Build Cycle
     cmds:
       - task test
-      - task: build-pypi-pack
+      - task build-pypi-pack
       # - task: build-docs-site
-      - task: build-shiv-exe
+      - task build-shiv-exe
+      - task validate-exe
     
   build-pypi-pack:
     desc: "Build pypi package"
     cmds:
       - pdm build
+  
+  build-shiv-exe:
+    desc: build with shiv
+    cmds:
+    - mkdir -p Release
+    - shiv -c tasker_ctl -o Release/tasker . fire loguru pyyaml pydantic
+
+  validate-exe:
+   desc: _
+   cmds:
+    - |-
+      ./Release/tasker \
+      --upath tests/data/sample-task/Taskfile.yml \
+      resolve_static_task \
+      ci-flow \
+      full_jorney | grep 'ci-flow --> stage("three")'
 
   build-docs-site:
     desc: build documentation site
@@ -123,9 +140,5 @@ tasks:
       - pip install -r {{.deps_pip_run_list_txt}}
       - pip install -r {{.deps_pip_test_list_txt}}
       
-  build-shiv-exe:
-    desc: build with shiv
-    cmds:
-    - mkdir -p Release
-    - shiv -c tasker_ctl -o Release/tasker . fire loguru pyyaml pydantic
+
     
