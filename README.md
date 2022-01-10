@@ -14,8 +14,13 @@ Sample Configurations can be found in
 
 ## Prerequisites
 
-!!! tip "Basic Tools"
-    We use [task go](http://taskfile.dev)
+> We use [task go](http://taskfile.dev) for automation
+> and couple more tools.
+
+```shell
+# install task yq git curl wget 
+bash ./_infra/get-started-mini-lib/task.ensure-base-os-tools.sh
+```
 
 ## Get Started
 
