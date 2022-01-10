@@ -22,7 +22,7 @@ COPY _infra/get-started-mini-lib/install_conda_mini.tasks.yml /_infra/get-starte
 RUN task -t \
     /_infra/get-started-mini-lib/install_conda_mini.tasks.yml \
     install-all
-
+# /home/gitpod/.pyenv/shims/pip
 RUN pip install pdm
 ENV PATH PATH:$HOME/.local/bin
 
