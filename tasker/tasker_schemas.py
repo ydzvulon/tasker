@@ -44,6 +44,19 @@ class TaskGoTask(BaseModel):
 TaskGoTaskUnion = Union[str, TaskGoTask]
 
 
+
+class CallNode(BaseModel):
+    caller: TaskGoTaskUnion
+    callie: TaskGoTaskUnion
+
+    def flow_stage(self, callie):
+        if callie is TaskGoTask:
+            is_flow_stage = True
+        return is_flow_stage
+
+    is_flow_stage = flow_stage(callie)
+
+
 class TaskGoIncludeItem(BaseModel):
     dir: str = '.'
     taskfile: str
