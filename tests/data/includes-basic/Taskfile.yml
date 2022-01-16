@@ -1,0 +1,23 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  subtask: subtask.stam.tasks.yml
+  subtask-here: 
+    dir: .
+    taskfile: subtask.stam.tasks.yml
+  leaf-here:
+    dir: .
+    taskfile: subdir/leaf.tasks.yml
+  leaf-there:
+    dir: subdir2
+    taskfile: subdir/leaf.tasks.yml
+
+tasks:
+  default:
+    cmds:
+      - task -l
+    silent: true
+
+
