@@ -51,7 +51,7 @@ class TaskGoIncludeItem(BaseModel):
 
 TaskGoIncludeItemFull = Union[str, TaskGoIncludeItem]
 
-TaskGoIncludesDict = Dict[str, TaskGoIncludeItem]
+TaskGoIncludesDict = Dict[str, TaskGoIncludeItemFull]
 TaskGoVarsDict = Dict[str, str] # variables in key:value form
 TaskGoTaskDict = Dict[str, TaskGoTaskUnion]
 

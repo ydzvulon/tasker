@@ -1,0 +1,6 @@
+version: "3"
+tasks:
+  call-me-task:
+    desc: _
+    cmds:
+      - echo "{{.TASK}}"

@@ -71,6 +71,11 @@ tasks:
     cmds:
       - coverage run -m pytest -s  tests && coverage html
 
+  serve-coverage-report:
+    desc: open coverage in browser
+    cmds:
+      - python -m http.server --bind 0.0.0.0 13123
+
   open-coverage-report:
     desc: open coverage in browser
     cmds:
