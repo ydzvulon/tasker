@@ -1,0 +1,5 @@
+fire>=0.4.0
+loguru>=0.5.3
+pydantic>=1.9.0
+pytest>=6.2.5
+pyyaml>=0.6.0
