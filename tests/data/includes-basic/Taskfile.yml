@@ -20,4 +20,10 @@ tasks:
       - task -l
     silent: true
 
+  info:
+    desc: '{{.TASK}}'
+    cmds:
+      - echo "Includes Taskfile Examples for testing"
+
+
 
