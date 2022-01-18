@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import Union, Sequence, Tuple
 
-from tasker_schemas import TaskGoTaskfileUnions, TaskGoTask, TaskGoStepTask
+from tasker_schemas import CallNode, TaskGoTaskUnion, TaskGoTaskfileUnions, TaskGoTask, TaskGoStepTask
 from struct_utils import safe_get
 import task_keys
 from world_map import WorldPartReflection
@@ -60,6 +60,10 @@ class TaskfileHandler:
         task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
         return task_obj
 
+    def get_task_by_name(self, taskname) -> TaskGoTaskUnion:
+        res = self.taskfile_obj.tasks[taskname]
+        return res
+
     def resolve_static_task(self, taskname):
         """
         Start from provided taskname, and create dependency graph for it
@@ -71,14 +75,17 @@ class TaskfileHandler:
         """
         return self._resolve_static_task(taskname)
 
+    
     def _resolve_static_task(self, taskname, world=None) -> dict:
         # TODO: resolve vars
+
         import copy
         if world is None:
-            world = {'unknown': {}, 'known': {}, 'jorney': [], 'full_jorney':[]}
+            world = {'unknown': {}, 'known': {}, 'jorney': [], 'full_jorney':[], 'node_jorney':[], 'node_jorney_repr':[]}
             world['unknown'].update({taskname: {}})
             world['jorney'].append('A_["_init_"] ' + f'--> {taskname}')
             world['full_jorney'].append('A_["_init_"] ' + f'--> {taskname}')
+            world['node_jorney'].append(CallNode(caller=None, callie=self.get_task_by_name(taskname)))  # experimental (add dummy as a starter)
 
         stage = self.taskfile_obj.tasks[taskname]
         next_stages = {}
@@ -113,9 +120,11 @@ class TaskfileHandler:
                 world['full_jorney'].append(taskname_record)
             if not any(taskname_record in item for item in world['jorney']): # if not present, there will be dupes
                 world['jorney'].append(taskname_record)
+            if not any(taskname_record in item for item in world['node_jorney']): # if not present, there will be dupes
+                world['node_jorney'].append(CallNode(caller = self.get_task_by_name(taskname), callie = None))  # experimental (add dummy terminator node)
 
         else:
-            stage: TaskGoTask
+            stage: TaskGoTask  # should there be "if"?
             for cmd_item in stage.cmds:
                 if isinstance(cmd_item, TaskGoStepTask):
                     next_stage = cmd_item.task
@@ -123,17 +132,17 @@ class TaskfileHandler:
                 elif isinstance(cmd_item, dict) and 'task' in cmd_item:
                     next_stage = cmd_item['task']
                     add_stage_node_to_full_jorney(taskname=taskname, next_stage=next_stage)
-                elif isinstance(cmd_item, str) and cmd_item[0:4] == 'task': #experimental, knocks out old test when enabled. why?
+                elif isinstance(cmd_item, str) and cmd_item[0:4] == 'task': #experimental
                     next_stage_cmd = cmd_item[5::] #experimental
                     add_cmd_node_to_full_jorney(taskname=taskname, next_stage=next_stage_cmd)
-                # bash commands with tasks parsing implemented above
                 else:
-                    next_stage = None
+                    next_stage = None 
 
-            if next_stage: # for non-full jorney. please mind tabs while editing this!
+            if next_stage:  # for non-full jorney. please mind tabs while editing this!
                 if next_stage not in world['known']:
                     world['unknown'].update({next_stage: taskname})
                     world['jorney'].append(f'{taskname} --> {next_stage}')
+                    world['node_jorney'].append(CallNode(caller = self.get_task_by_name(taskname), callie = self.get_task_by_name(next_stage)))  # experimental
                 next_stages.update({next_stage: 'Z_'})
 
         world['known'].update({taskname: list(next_stages.keys())})
@@ -143,6 +152,11 @@ class TaskfileHandler:
         if world['unknown']:
             for _taskname in dict(world['unknown'].items()):
                 self._resolve_static_task(_taskname, world=world)
+        
+        for node in world['node_jorney']:
+            if node.__repr__() not in world['node_jorney_repr']:
+                world['node_jorney_repr'].append(node.__repr__())
+
         return world
 
 
@@ -202,9 +216,9 @@ def cli_and_py_billing_sample():
 if __name__ == '__main__':
     print(os.getcwd())
     # exit(0)
-    fire.Fire(TaskfileHandler)
+    # fire.Fire(TaskfileHandler)
     ### Coment out for testing
-    # cli_and_py_billing_sample()
+    cli_and_py_billing_sample()
 
 
 

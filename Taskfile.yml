@@ -113,3 +113,23 @@ tasks:
         resolve_static_task \
         ci-flow \
         jorney
+
+  run-test-gen-flowchart:
+    desc: print flowchart of provided taskfile
+    cmds:
+      - |-
+        python tasker/tasker_ctl.py \
+          --upath tests/data/sample-task/Taskfile.yml \
+          resolve_static_task \
+          ci-flow \
+          node_jorney_repr
+          
+
+  pyenv-update-here:
+    desc: "resolve work/test venv={{.const_venv}}"
+    vars:
+      deps_pip_run_list_txt: version/deps/deps.pip.run.broad.list.txt
+      deps_pip_test_list_txt: version/deps/deps.pip.test.broad.list.txt
+    cmds:
+      - pip install -r {{.deps_pip_run_list_txt}}
+      - pip install -r {{.deps_pip_test_list_txt}}

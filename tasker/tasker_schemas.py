@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Dict, Union, Optional
+from xmlrpc.client import Boolean
 from pydantic import Field, BaseModel
 
 
@@ -44,18 +45,31 @@ class TaskGoTask(BaseModel):
 TaskGoTaskUnion = Union[str, TaskGoTask]
 
 
-
 class CallNode(BaseModel):
-    caller: TaskGoTaskUnion
-    callie: TaskGoTaskUnion
+    """
+        
+    """
+    caller: Optional[TaskGoTaskUnion]
+    callie: Optional[TaskGoTaskUnion]
 
-    def flow_stage(self, callie):
-        if callie is TaskGoTask:
-            is_flow_stage = True
-        return is_flow_stage
+    def __repr__(self):
+        if self.is_start():
+            s = 'A_["_init_"] '
+            f = None
+        elif self.is_finish():
+            f = ' Z_["_over"]'
+            s = None
+        s = s or self.caller.cmds  # TODO: add taskname resolve
+        if not isinstance(self.callie, str): 
+            return f'{self.caller.cmds} --> stage("{self.callie.cmds}")'
+        else:
+            return f'{self.caller} --> cmd("{self.callie}")'
 
-    is_flow_stage = flow_stage(callie)
+    def is_start(self):
+        return self.caller is None
 
+    def is_finish(self):
+        return self.callie is None
 
 class TaskGoIncludeItem(BaseModel):
     dir: str = '.'
