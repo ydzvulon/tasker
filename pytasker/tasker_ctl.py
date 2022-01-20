@@ -56,8 +56,14 @@ class TaskfileHandler:
         for (name, task_dict) in self.taskfile_obj.tasks.items():
             yield name, safe_get('desc', task_dict)
 
-    def get_section(self, name:str):
-        task_obj: TaskGoTask = getattr(self.taskfile_obj, name)
+    def get_stage_by_name(self, name:str) -> TaskGoTask:
+        """
+        """
+        res = self.taskfile_obj.tasks.get(name, None)
+        if res is None:
+            # raise ValueError(f"stage {name} is not present")
+            return None
+        task_obj: TaskGoTask = res
         return task_obj
 
     def resolve_static_task(self, taskname):
