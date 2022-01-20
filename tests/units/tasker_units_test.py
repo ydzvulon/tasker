@@ -3,6 +3,7 @@ from pathlib import Path
 
 from pytest_steps import test_steps
 from pytasker import tasker_ctl
+from pytasker.tasker_schemas import TaskGoStepTask
 
 # '~/_wd/repos/jenlib'
 
@@ -90,6 +91,24 @@ def test__tree_dict__input_arg_for_tasker_from_text02():
     handler = tasker_ctl.TaskfileHandler(treedict=treedict)
     actual_tasks = [it[0] for it in handler.list_tasks()]
     assert 'new_task' in actual_tasks, "Missing dynamicly added task 'new_task'"
+
+def test__get_stage_by_name_new():
+    import yaml
+    text = TASKFILE_TEXT
+    treedict = yaml.safe_load(text)
+    # dynamicly add more stages to taskfile
+    treedict['tasks']['new_task'] = {'cmds': [{'task': 'first'}]}
+
+    handler: tasker_ctl.TaskfileHandler = tasker_ctl.TaskfileHandler(treedict=treedict)
+    stage =  handler.get_stage_by_name('new_task')
+    first_step_o = stage.cmds[0]
+    assert isinstance(first_step_o, TaskGoStepTask)
+    first_step: TaskGoStepTask = first_step_o
+    assert first_step.task == 'first'
+    
+    # stage_none =  handler.get_stage_by_name('__1stage_none__')
+    # assert stage_none is None
+    
 
 
 def test_suite__taskerctl_2_input_validation(tmpdir):
