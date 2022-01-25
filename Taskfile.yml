@@ -130,7 +130,7 @@ tasks:
    desc: _
    cmds:
     - |-
-      python tasker/tasker_ctl.py \
+      python pytasker/tasker_ctl.py \
         --upath tests/data/sample-task/Taskfile.yml \
         resolve_static_task \
         ci-flow \

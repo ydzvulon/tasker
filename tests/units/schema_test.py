@@ -12,3 +12,12 @@ def test_suite__extradite_tokens_segments():
     print("sf")
     assert bool is Foo.__fields__['met'].type_
     yield
+
+
+def test_get_from_list():
+    # arrange
+
+    # act
+
+    # assert
+    assert True
