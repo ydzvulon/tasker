@@ -1,37 +1,47 @@
-## Welcome to GitHub Pages
+# Tasker
 
-You can use the [editor on GitHub](https://github.com/ydzvulon/tasker/edit/gh-pages/docs/index.md) to maintain and preview the content for your website in Markdown files.
+**Tasker**  is a ui and dependency analytics tool,
+that works with taskfile configurations.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+> Develop on [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/) `or via` https://www.gitpod.io/#https://github.com/ydzvulon/tasker
 
-### Markdown
+> Documentaion on [https://yairdar.github.io/tasker/](https://yairdar.github.io/tasker/)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Sample Configurations can be found in
 
-```markdown
-Syntax highlighted code block
+- [in this repo at ./tests/data](./tests/data)
+- [in yd-tut-tasks](http://yairdar.github.io/ydu-tasfile-tut)
 
-# Header 1
-## Header 2
-### Header 3
+## Prerequisites
 
-- Bulleted
-- List
+> We use [task go](http://taskfile.dev) for automation
+> and couple more tools.
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```shell
+# install task yq git curl wget 
+bash ./_infra/get-started-mini-lib/task.ensure-base-os-tools.sh
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+## Get Started
 
-### Jekyll Themes
+Create a dev environment
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ydzvulon/tasker/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```bash
+# To Create A dev/test environment
+task venv-resolve
 
-### Support or Contact
+```
+### Documentation
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```bash
+# To see documentation site in the browser run
+task docs-builder:serve-source
+```
+
+### Data For Tests
+
+In this repo we use data for test from jenlib
+
+- [sample taskfile](./tests/data/sample-task/Taskfile.yml)
+
+ 
