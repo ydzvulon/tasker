@@ -83,7 +83,7 @@ class TaskfileHandler:
             world['unknown'].update({taskname: {}})
             world['jorney'].append('A_["_init_"] ' + f'--> {taskname}')
             world['full_jorney'].append('A_["_init_"] ' + f'--> {taskname}')
-            world['node_jorney'].append(CallNode(caller=None, callie=self.get_task_by_name(taskname)))  # experimental
+            world['node_jorney'].append(CallNode(caller=None, callee=self.get_task_by_name(taskname)))  # experimental
 
         stage = self.taskfile_obj.tasks[taskname]
         next_stages = {}
@@ -119,7 +119,7 @@ class TaskfileHandler:
             if not any(taskname_record in item for item in world['jorney']): # if not present, there will be dupes
                 world['jorney'].append(taskname_record)
             if not any(taskname_record in item for item in world['node_jorney']): # if not present, there will be dupes
-                world['node_jorney'].append(CallNode(caller = self.get_task_by_name(taskname), callie = None))  # experimental
+                world['node_jorney'].append(CallNode(caller = self.get_task_by_name(taskname), callee = None))  # experimental
 
         else:
             stage: TaskGoTask
@@ -141,7 +141,7 @@ class TaskfileHandler:
                 if next_stage not in world['known']:
                     world['unknown'].update({next_stage: taskname})
                     world['jorney'].append(f'{taskname} --> {next_stage}')
-                    world['node_jorney'].append(CallNode(caller = self.get_task_by_name(taskname), callie = self.get_task_by_name(next_stage)))  # experimental
+                    world['node_jorney'].append(CallNode(caller = self.get_task_by_name(taskname), callee = self.get_task_by_name(next_stage)))  # experimental
                 next_stages.update({next_stage: 'Z_'})
                 
 

@@ -48,7 +48,7 @@ class CallNode(BaseModel):
         
     """
     caller: Optional[TaskGoTaskUnion]
-    callie: Optional[TaskGoTaskUnion]
+    callee: Optional[TaskGoTaskUnion]
 
     def __repr__(self):
         if self.is_start():
@@ -58,16 +58,16 @@ class CallNode(BaseModel):
             f = ' Z_["_over"]'
             s = None
         s = s or self.caller.cmds  # TODO: add taskname resolve
-        if not isinstance(self.callie, str): 
-            return f'{self.caller.cmds} --> stage("{self.callie.cmds}")'
+        if not isinstance(self.callee, str): 
+            return f'{self.caller.cmds} --> stage("{self.callee.cmds}")'
         else:
-            return f'{self.caller} --> cmd("{self.callie}")'
+            return f'{self.caller} --> cmd("{self.callee}")'
 
     def is_start(self):
         return self.caller is None
 
     def is_finish(self):
-        return self.callie is None
+        return self.callee is None
 
 
 
