@@ -2,8 +2,8 @@
 
 ## Devlop in vscode tutorial
 
-> https://www.agilepartner.net/en/vscode-remote-container-getting-started-with-python/
-> https://www.geeksforgeeks.org/html-course-first-web-page-printing-hello-world/
+> - https://www.agilepartner.net/en/vscode-remote-container-getting-started-with-python/
+> - https://www.geeksforgeeks.org/html-course-first-web-page-printing-hello-world/
 
 
 ## Install Basic Shell Tools
