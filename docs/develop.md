@@ -1,5 +1,11 @@
 # Develop Tasker for good
 
+## Devlop in vscode tutorial
+
+> https://www.agilepartner.net/en/vscode-remote-container-getting-started-with-python/
+
+
+
 ## Install Basic Shell Tools
 
 - > os minimal dev pack
