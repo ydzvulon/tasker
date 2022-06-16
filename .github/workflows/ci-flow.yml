@@ -3,9 +3,9 @@ name: ci-flow
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, main.ydzvulon ]
   pull_request:
-    branches: [ main ]
+    branches: [ main , main.ydzvulon ]
   workflow_dispatch:
 
 jobs:
